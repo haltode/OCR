@@ -1,9 +1,9 @@
 CPPFLAGS = -MMD
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2 \
-	$(pkg-config --cflags gtk+-3.0)
+	$(shell pkg-config --cflags gtk+-3.0)
 LDFLAGS =
-LDLIBS = -lm $(pkg-config --libs gtk+-3.0)
+LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0)
 
 SRC = 	main.c ocr.c \
 	char_detection/char_detection.c \

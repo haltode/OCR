@@ -1,6 +1,6 @@
 CPPFLAGS = -MMD
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -pedantic -O2
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2
 LDFLAGS =
 LDLIBS = -lm
 

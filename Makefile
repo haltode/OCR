@@ -4,7 +4,7 @@ CFLAGS = -Wall -Wextra -std=c99 -pedantic -O2
 LDFLAGS =
 LDLIBS = -lm
 
-SRC = main.c
+SRC = main.c ocr.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 

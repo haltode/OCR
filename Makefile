@@ -8,7 +8,8 @@ LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0)
 SRC = 	main.c ocr.c \
 	char_detection/char_detection.c \
 	neural_network/neural_network.c \
-	preprocessing/preprocessing.c
+	preprocessing/preprocessing.c \
+	utils/matrix.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 

@@ -14,6 +14,11 @@ struct Matrix *matrix_alloc(size_t nb_rows, size_t nb_cols);
 void matrix_free(struct Matrix *matrix);
 
 float matrix_get(struct Matrix *matrix, size_t row, size_t col);
+void matrix_set(struct Matrix *matrix, size_t row, size_t col, float value);
+
+struct Matrix *matrix_add(struct Matrix *a, struct Matrix *b);
+struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b);
+struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b);
 
 void matrix_print(struct Matrix *matrix);
 

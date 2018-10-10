@@ -1,11 +1,14 @@
 #include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "ocr.h"
 
 int main(int argc, char *argv[])
 {
+    srand(42);
+
     if (argc <= 1)
     {
         printf("Try 'ocr --help' for more information.\n");

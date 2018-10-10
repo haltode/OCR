@@ -19,6 +19,12 @@ static void layer_free(struct Layer *layer)
     matrix_free(layer->bias);
 }
 
+static void layer_random_init(struct Layer *layer)
+{
+    matrix_fill_random(layer->weight, 0., 1.);
+    matrix_fill_random(layer->bias, 0., 1.);
+}
+
 struct Network *network_alloc(size_t nb_layers, size_t *layers_size)
 {
     struct Network *network = malloc(sizeof(struct Network));
@@ -26,10 +32,12 @@ struct Network *network_alloc(size_t nb_layers, size_t *layers_size)
     network->layers = malloc(sizeof(struct Layer) * nb_layers);
     for (size_t i = 0; i < nb_layers; i++)
     {
+        struct Layer *layer = &network->layers[i];
         size_t prev_layer_size = 0;
         if (i > 0)
             prev_layer_size = layers_size[i - 1];
-        layer_alloc(&network->layers[i], prev_layer_size, layers_size[i]);
+        layer_alloc(layer, prev_layer_size, layers_size[i]);
+        layer_random_init(layer);
     }
     return network;
 }

@@ -9,7 +9,8 @@ SRC = 	main.c ocr.c \
 	char_detection/char_detection.c \
 	neural_network/neural_network.c \
 	preprocessing/preprocessing.c \
-	utils/matrix.c
+	utils/matrix.c \
+	utils/random.c
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 

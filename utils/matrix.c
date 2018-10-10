@@ -78,6 +78,26 @@ struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b)
     return res;
 }
 
+struct Matrix *matrix_transpose(struct Matrix *matrix)
+{
+    struct Matrix *res = matrix_alloc(matrix->nb_cols, matrix->nb_rows);
+    for (size_t r = 0; r < res->nb_rows; r++)
+        for (size_t c = 0; c < res->nb_cols; c++)
+        {
+            float value = matrix_get(matrix, c, r);
+            matrix_set(res, r, c, value);
+        }
+    return res;
+}
+
+struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float))
+{
+    struct Matrix *res = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
+    for (size_t idx = 0; idx < res->nb_rows * res->nb_cols; idx++)
+        res->mat[idx] = (*func)(matrix->mat[idx]);
+    return res;
+}
+
 void matrix_fill_random(struct Matrix *matrix, float lower, float upper)
 {
     for (size_t idx = 0; idx < matrix->nb_rows * matrix->nb_cols; idx++)

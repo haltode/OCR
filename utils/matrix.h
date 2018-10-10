@@ -20,6 +20,8 @@ struct Matrix *matrix_add(struct Matrix *a, struct Matrix *b);
 struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b);
 struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b);
 
+struct Matrix *matrix_transpose(struct Matrix *matrix);
+struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float));
 void matrix_fill_random(struct Matrix *matrix, float lower, float upper);
 void matrix_print(struct Matrix *matrix);
 

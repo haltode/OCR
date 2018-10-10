@@ -104,16 +104,28 @@ void matrix_fill_random(struct Matrix *matrix, float lower, float upper)
         matrix->mat[idx] = random_float(lower, upper);
 }
 
-void matrix_print(struct Matrix *matrix)
+void matrix_print(struct Matrix *matrix, FILE *f)
 {
     for (size_t r = 0; r < matrix->nb_rows; r++)
     {
         for (size_t c = 0; c < matrix->nb_cols; c++)
         {
-            printf("%f", matrix_get(matrix, r, c));
+            fprintf(f, "%f", matrix_get(matrix, r, c));
             if (c + 1 < matrix->nb_cols)
-                printf("\t");
+                fprintf(f, "\t");
         }
-        printf("\n");
+        fprintf(f, "\n");
     }
+}
+
+void matrix_print_inline(struct Matrix *matrix, FILE *f)
+{
+    size_t nb_ele = matrix->nb_rows * matrix->nb_cols;
+    for (size_t idx = 0; idx < nb_ele; idx++)
+    {
+        fprintf(f, "%f", matrix->mat[idx]);
+        if (idx + 1 < nb_ele)
+            fprintf(f, " ");
+    }
+    fprintf(f, "\n");
 }

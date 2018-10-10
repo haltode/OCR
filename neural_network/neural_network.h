@@ -23,4 +23,7 @@ struct Network
 struct Network *network_alloc(size_t nb_layers, size_t *layers_size);
 void network_free(struct Network *network);
 
+void network_save(struct Network *network, const char *filename);
+struct Network *network_load(const char *filename);
+
 #endif

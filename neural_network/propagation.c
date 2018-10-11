@@ -22,3 +22,12 @@ void layer_feedforward(struct Layer *previous, struct Layer *current)
                     current->bias);
     current->out = matrix_apply_func(current->in, sigmoid);
 }
+
+void network_feedforward(struct Network *network, struct Matrix *network_input)
+{
+    struct Layer *input_layer = &network->layers[0];
+    matrix_free(input_layer->in);
+    input_layer->in = matrix_copy(network_input);
+    for (size_t i = 1; i < network->nb_layers; i++)
+        layer_feedforward(&network->layers[i - 1], &network->layers[i]);
+}

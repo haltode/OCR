@@ -19,6 +19,14 @@ void matrix_free(struct Matrix *matrix)
     free(matrix);
 }
 
+struct Matrix *matrix_copy(struct Matrix *matrix)
+{
+    struct Matrix *copy = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
+    for (size_t idx = 0; idx < matrix->nb_rows * matrix->nb_cols; idx++)
+        copy->mat[idx] = matrix->mat[idx];
+    return copy;
+}
+
 float matrix_get(struct Matrix *matrix, size_t row, size_t col)
 {
     return matrix->mat[row * matrix->nb_cols + col];

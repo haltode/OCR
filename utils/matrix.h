@@ -20,7 +20,12 @@ void matrix_set(struct Matrix *matrix, size_t row, size_t col, float value);
 
 struct Matrix *matrix_add(struct Matrix *a, struct Matrix *b);
 struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b);
+struct Matrix *matrix_scalar(struct Matrix *a, float scalar);
 struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b);
+struct Matrix *matrix_hadamard_mul(struct Matrix *a, struct Matrix *b);
+
+void matrix_add_inplace(struct Matrix *a, struct Matrix *b);
+void matrix_sub_inplace(struct Matrix *a, struct Matrix *b);
 
 struct Matrix *matrix_transpose(struct Matrix *matrix);
 struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float));

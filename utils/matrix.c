@@ -65,6 +65,14 @@ struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b)
     return res;
 }
 
+struct Matrix *matrix_scalar(struct Matrix *a, float scalar)
+{
+    struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
+    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+        res->mat[idx] = a->mat[idx] * scalar;
+    return res;
+}
+
 struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_cols != b->nb_rows)
@@ -84,6 +92,44 @@ struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b)
                 matrix_set(res, r, c, sum);
             }
     return res;
+}
+
+struct Matrix *matrix_hadamard_mul(struct Matrix *a, struct Matrix *b)
+{
+    if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
+    {
+        perror("matrix: cannot use hadamard product (wrong dimensions).");
+        return NULL;
+    }
+
+    struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
+    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+        res->mat[idx] = a->mat[idx] * b->mat[idx];
+    return res;
+}
+
+void matrix_add_inplace(struct Matrix *a, struct Matrix *b)
+{
+    if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
+    {
+        perror("matrix: cannot add matrices (wrong dimensions).");
+        return;
+    }
+
+    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+        a->mat[idx] += b->mat[idx];
+}
+
+void matrix_sub_inplace(struct Matrix *a, struct Matrix *b)
+{
+    if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
+    {
+        perror("matrix: cannot substract matrices (wrong dimensions).");
+        return;
+    }
+
+    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+        a->mat[idx] -= b->mat[idx];
 }
 
 struct Matrix *matrix_transpose(struct Matrix *matrix)

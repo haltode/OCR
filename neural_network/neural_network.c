@@ -8,7 +8,7 @@ static void layer_alloc(struct Layer *layer, size_t nb_in, size_t nb_out)
     layer->nb_neurons = nb_out;
     layer->in = matrix_alloc(nb_in, 1);
     layer->out = matrix_alloc(nb_out, 1);
-    layer->weight = matrix_alloc(nb_in, nb_out);
+    layer->weight = matrix_alloc(nb_out, nb_in);
     layer->bias = matrix_alloc(nb_out, 1);
 }
 

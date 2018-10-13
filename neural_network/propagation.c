@@ -17,11 +17,12 @@ void layer_feedforward(struct Layer *previous, struct Layer *current)
     matrix_free(current->in);
     matrix_free(current->out);
 
-    current->in =
-        matrix_add(
-            matrix_mul(current->weight, previous->out),
-            current->bias);
+    struct Matrix *weight_x_out = matrix_mul(current->weight, previous->out);
+
+    current->in = matrix_add(weight_x_out, current->bias);
     current->out = matrix_apply_func(current->in, sigmoid);
+
+    matrix_free(weight_x_out);
 }
 
 void network_feedforward(struct Network *network, struct Matrix *network_input)
@@ -41,22 +42,28 @@ void network_compute_error(struct Network *network, struct Matrix *desired_out)
     struct Layer *output_layer = &network->layers[network->nb_layers - 1];
     matrix_free(output_layer->delta);
 
-    output_layer->delta =
-        matrix_hadamard_mul(
-            matrix_sub(output_layer->out, desired_out),
-            matrix_apply_func(output_layer->in, sigmoid_prime));
+    struct Matrix *out_diff = matrix_sub(output_layer->out, desired_out);
+    struct Matrix *in_sig = matrix_apply_func(output_layer->in, sigmoid_prime);
+
+    output_layer->delta = matrix_hadamard_mul(out_diff, in_sig);
+
+    matrix_free(out_diff);
+    matrix_free(in_sig);
 }
 
 void layer_backward(struct Layer *previous, struct Layer *current)
 {
     matrix_free(previous->delta);
 
-    previous->delta =
-        matrix_hadamard_mul(
-            matrix_mul(
-                matrix_transpose(current->weight),
-                current->delta),
-            matrix_apply_func(previous->in, sigmoid_prime));
+    struct Matrix *weight_transpose = matrix_transpose(current->weight);
+    struct Matrix *weight_x_delta = matrix_mul(weight_transpose, current->delta);
+    struct Matrix *in_sigmoid = matrix_apply_func(previous->in, sigmoid_prime);
+
+    previous->delta = matrix_hadamard_mul(weight_x_delta, in_sigmoid);
+
+    matrix_free(weight_transpose);
+    matrix_free(weight_x_delta);
+    matrix_free(in_sigmoid);
 }
 
 void network_backward(struct Network *network)

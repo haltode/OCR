@@ -34,13 +34,20 @@ void network_update_neurons(struct Network *network, float modif_rate)
 {
     for (size_t i = network->nb_layers - 1; i > 0; i--)
     {
+        struct Layer *prev_layer = &network->layers[i - 1];
         struct Layer *layer = &network->layers[i];
-        matrix_sub_inplace(layer->weight,
-            matrix_scalar(
-                matrix_mul(layer->delta,
-                    matrix_transpose(network->layers[i - 1].out)),
-                modif_rate));
-        matrix_sub_inplace(layer->bias,
-            matrix_scalar(layer->delta, modif_rate));
+
+        struct Matrix *out_transpose = matrix_transpose(prev_layer->out);
+        struct Matrix *delta_x_out = matrix_mul(layer->delta, out_transpose);
+        struct Matrix *weight_modif = matrix_scalar(delta_x_out, modif_rate);
+        struct Matrix *bias_modif = matrix_scalar(layer->delta, modif_rate);
+
+        matrix_sub_inplace(layer->weight, weight_modif);
+        matrix_sub_inplace(layer->bias, bias_modif);
+
+        matrix_free(out_transpose);
+        matrix_free(delta_x_out);
+        matrix_free(weight_modif);
+        matrix_free(bias_modif);
     }
 }

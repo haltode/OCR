@@ -23,7 +23,7 @@ void gradient_descent_step(struct Network *network, struct TrainingSet *batch)
 
     for (size_t i = 0; i < batch->nb_examples; i++)
     {
-        network_feedforward(network, batch->examples[i].in);
+        network_forward(network, batch->examples[i].in);
         network_compute_error(network, batch->examples[i].out);
         network_backward(network);
         network_update_neurons(network, modif_rate);

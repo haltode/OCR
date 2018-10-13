@@ -4,8 +4,8 @@
 #include "../utils/matrix.h"
 #include "neural_network.h"
 
-void layer_feedforward(struct Layer *previous, struct Layer *current);
-void network_feedforward(struct Network *network, struct Matrix *network_input);
+void layer_forward(struct Layer *previous, struct Layer *current);
+void network_forward(struct Network *network, struct Matrix *network_input);
 
 void network_compute_error(struct Network *network, struct Matrix *desired_out);
 

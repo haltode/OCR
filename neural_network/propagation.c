@@ -12,7 +12,7 @@ float sigmoid_prime(float x)
     return sigmoid(x) * (1 - sigmoid(x));
 }
 
-void layer_feedforward(struct Layer *previous, struct Layer *current)
+void layer_forward(struct Layer *previous, struct Layer *current)
 {
     matrix_free(current->in);
     matrix_free(current->out);
@@ -25,7 +25,7 @@ void layer_feedforward(struct Layer *previous, struct Layer *current)
     matrix_free(weight_x_out);
 }
 
-void network_feedforward(struct Network *network, struct Matrix *network_input)
+void network_forward(struct Network *network, struct Matrix *network_input)
 {
     struct Layer *input_layer = &network->layers[0];
     matrix_free(input_layer->in);
@@ -34,7 +34,7 @@ void network_feedforward(struct Network *network, struct Matrix *network_input)
     input_layer->out = matrix_copy(network_input);
 
     for (size_t i = 1; i < network->nb_layers; i++)
-        layer_feedforward(&network->layers[i - 1], &network->layers[i]);
+        layer_forward(&network->layers[i - 1], &network->layers[i]);
 }
 
 void network_compute_error(struct Network *network, struct Matrix *desired_out)

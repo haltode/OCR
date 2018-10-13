@@ -10,6 +10,7 @@ static void layer_alloc(struct Layer *layer, size_t nb_in, size_t nb_out)
     layer->out = matrix_alloc(nb_out, 1);
     layer->weight = matrix_alloc(nb_out, nb_in);
     layer->bias = matrix_alloc(nb_out, 1);
+    layer->delta = matrix_alloc(nb_out, 1);
 }
 
 static void layer_free(struct Layer *layer)
@@ -18,6 +19,7 @@ static void layer_free(struct Layer *layer)
     matrix_free(layer->out);
     matrix_free(layer->weight);
     matrix_free(layer->bias);
+    matrix_free(layer->delta);
 }
 
 static void layer_random_init(struct Layer *layer)

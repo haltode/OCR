@@ -12,6 +12,7 @@ struct Layer
     struct Matrix *out;
     struct Matrix *weight;
     struct Matrix *bias;
+    struct Matrix *delta;
 };
 
 struct Network

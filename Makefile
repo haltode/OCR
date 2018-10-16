@@ -7,6 +7,8 @@ LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0)
 
 SRC = 	main.c ocr.c \
 	char_detection/char_detection.c \
+	interface/buttons.c \
+	interface/interface.c \
 	neural_network/neural_network.c \
 	neural_network/propagation.c \
 	neural_network/training.c \

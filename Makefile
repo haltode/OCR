@@ -1,9 +1,11 @@
 CPPFLAGS = -MMD
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2 \
-	$(shell pkg-config --cflags gtk+-3.0)
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O0 -g \
+	$(shell pkg-config --cflags gtk+-3.0) \
+	$(shell pkg-config --cflags sdl)
 LDFLAGS =
-LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0)
+LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0) \
+	$(shell pkg-config --libs sdl) -lSDL_image
 
 SRC = 	main.c ocr.c \
 	char_detection/char_detection.c \
@@ -13,6 +15,7 @@ SRC = 	main.c ocr.c \
 	neural_network/propagation.c \
 	neural_network/training.c \
 	preprocessing/preprocessing.c \
+	utils/image.c \
 	utils/matrix.c \
 	utils/random.c
 OBJ = ${SRC:.c=.o}

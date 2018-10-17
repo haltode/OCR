@@ -5,8 +5,7 @@
 
 #include "../preprocessing/preprocessing.h"
 #include "../utils/image.h"
-
-const char *g_detect_lines_img_path = "output/image_detect_lines.bmp";
+#include "char_detection.h"
 
 static bool is_blank_line(SDL_Surface *image, int height)
 {
@@ -26,27 +25,34 @@ static void draw_red_line(SDL_Surface *image, int height)
     }
 }
 
-void line_detection(void)
+void line_detection(const char *input_path, const char *output_path)
 {
-    SDL_Surface *image = SDL_LoadBMP(g_binarize_img_path);
+    SDL_Surface *image = SDL_LoadBMP(input_path);
     if (image == NULL)
-        errx(3, "cannot load %s: %s", g_binarize_img_path, IMG_GetError());
+        errx(3, "cannot load %s: %s", input_path, IMG_GetError());
 
     int h = 0;
     while (h < image->h)
     {
+        int line_start = 0;
         while (h < image->h && is_blank_line(image, h))
             h++;
         if (h > 0 && h < image->h)
+        {
             draw_red_line(image, h - 1);
+            line_start = h;
+        }
 
         while (h < image->h && !is_blank_line(image, h))
             h++;
         if (h < image->h)
+        {
+            char_detection(image, line_start, h);
             draw_red_line(image, h);
+        }
 
         h++;
     }
 
-    SDL_SaveBMP(image, g_detect_lines_img_path);
+    SDL_SaveBMP(image, output_path);
 }

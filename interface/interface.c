@@ -24,8 +24,8 @@ void interface_start(void)
     button = gtk_builder_get_object(builder, "binarize_button");
     g_signal_connect(button, "clicked", G_CALLBACK(binarize_button), image);
 
-    button = gtk_builder_get_object(builder, "detect_lines_button");
-    g_signal_connect(button, "clicked", G_CALLBACK(detect_lines_button), image);
+    button = gtk_builder_get_object(builder, "detect_chars_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(detect_chars_button), image);
 
     button = gtk_builder_get_object(builder, "quit_button");
     g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);

@@ -53,10 +53,10 @@ void binarize_button(GtkButton *button, gpointer user_data)
     gtk_image_set_from_file(GTK_IMAGE(image), g_binarize_img_path);
 }
 
-void detect_lines_button(GtkButton *button, gpointer user_data)
+void detect_chars_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
 
     GtkWidget *image = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image), g_detect_lines_img_path);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_detect_chars_img_path);
 }

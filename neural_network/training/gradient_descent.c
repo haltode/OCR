@@ -29,10 +29,11 @@ static void network_update_neurons(struct Network *network, float modif_rate)
 void gradient_descent(struct Network *network,
     struct TrainingSet *train_set, size_t nb_epochs, float learning_rate)
 {
-    for (size_t epoch = 0; epoch < nb_epochs; epoch++)
-    {
-        printf("epoch %zu: ", epoch);
+    printf("training network for %zu epochs with learning rate %.1f\n",
+        nb_epochs, learning_rate);
 
+    for (size_t epoch = 1; epoch <= nb_epochs; epoch++)
+    {
         // TODO: random shuffle + mini batch
         struct TrainingSet *batch = train_set;
         float modif_rate = learning_rate / batch->nb_examples;
@@ -44,6 +45,7 @@ void gradient_descent(struct Network *network,
             network_update_neurons(network, modif_rate);
         }
 
-        printf("\n");
+        if (epoch % 1000 == 0)
+            printf("done epoch %zu\n", epoch);
     }
 }

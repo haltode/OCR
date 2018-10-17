@@ -38,15 +38,17 @@ void test_xor_network(void)
     const float learning_rate = 3.;
     gradient_descent(network, train_set, nb_epochs, learning_rate);
 
+    printf("\n");
     for (size_t i = 0; i < 4; i++)
     {
         struct TrainingData *example = &train_set->examples[i];
         printf("input: %f %f\n", example->in->mat[0], example->in->mat[1]);
-
         network_forward(network, example->in);
+
         struct Layer *output_layer = &network->layers[network->nb_layers - 1];
-        printf("output: %f\n", output_layer->out->mat[0]);
-        printf("\n");
+        float raw_out = output_layer->out->mat[0];
+        int final_out = (raw_out >= 0.5);
+        printf("output: %f => %d\n\n", raw_out, final_out);
     }
 
     network_save(network, "output/xor_network");

@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
 
     if (train)
     {
-        printf("training xor network...\n");
+        printf("using xor test network\n");
         test_xor_network();
     }
     else

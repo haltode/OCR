@@ -20,6 +20,7 @@ SRC = 	main.c \
 	preprocessing/preprocessing.c \
 	tests/xor_network.c \
 	utils/image.c \
+	utils/math.c \
 	utils/matrix.c \
 	utils/random.c
 OBJ = ${SRC:.c=.o}

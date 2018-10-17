@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "../utils/math.h"
 #include "neural_network.h"
+#include "propagation.h"
 
 static void layer_alloc(struct Layer *layer, size_t nb_in, size_t nb_out)
 {
@@ -51,6 +53,17 @@ void network_free(struct Network *network)
         layer_free(&network->layers[i]);
     free(network->layers);
     free(network);
+}
+
+int network_run(struct Network *network, struct Matrix *network_input)
+{
+    network_forward(network, network_input);
+
+    struct Layer *output_layer = &network->layers[network->nb_layers - 1];
+    float *output_vect = output_layer->out->mat;
+    size_t output_size = output_layer->out->nb_rows;
+
+    return argmax(output_vect, output_size);
 }
 
 void network_save(struct Network *network, const char *filename)

@@ -1,4 +1,3 @@
-#include "../char_detection/char_detection.h"
 #include "../preprocessing/preprocessing.h"
 #include "buttons.h"
 
@@ -53,10 +52,10 @@ void binarize_button(GtkButton *button, gpointer user_data)
     gtk_image_set_from_file(GTK_IMAGE(image), g_binarize_img_path);
 }
 
-void detect_chars_button(GtkButton *button, gpointer user_data)
+void segmentation_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
 
     GtkWidget *image = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image), g_detect_chars_img_path);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_segmentation_img_path);
 }

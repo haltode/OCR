@@ -8,8 +8,6 @@ LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0) \
 	$(shell pkg-config --libs sdl) -lSDL_image
 
 SRC = 	main.c \
-	char_detection/char_detection.c \
-	char_detection/line_detection.c \
 	interface/buttons.c \
 	interface/interface.c \
 	neural_network/neural_network.c \
@@ -19,6 +17,9 @@ SRC = 	main.c \
 	preprocessing/binarization.c \
 	preprocessing/grayscale.c \
 	preprocessing/preprocessing.c \
+	segmentation/chars.c \
+	segmentation/lines.c \
+	segmentation/segmentation.c \
 	tests/xor_network.c \
 	utils/image.c \
 	utils/math.c \

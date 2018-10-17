@@ -1,6 +1,7 @@
+#include "../preprocessing/preprocessing.h"
 #include "buttons.h"
 
-void load_image(GtkButton* button, gpointer user_data)
+void load_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
 
@@ -25,9 +26,28 @@ void load_image(GtkButton* button, gpointer user_data)
     {
         GtkFileChooser *chooser = GTK_FILE_CHOOSER(dialog);
         gchar *filename = gtk_file_chooser_get_filename(chooser);
+
         gtk_image_set_from_file(GTK_IMAGE(image), filename);
+        preprocessing(filename);
+
         g_free(filename);
     }
 
     gtk_widget_destroy(dialog);
+}
+
+void grayscale_button(GtkButton *button, gpointer user_data)
+{
+    (void)(button);
+
+    GtkWidget *image = GTK_WIDGET(user_data);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_grayscale_img_path);
+}
+
+void binarize_button(GtkButton *button, gpointer user_data)
+{
+    (void)(button);
+
+    GtkWidget *image = GTK_WIDGET(user_data);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_binarize_img_path);
 }

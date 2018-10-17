@@ -14,11 +14,18 @@ void interface_start(void)
 
     GtkWidget *image = GTK_WIDGET(gtk_builder_get_object(builder, "image"));
 
-    GObject *load_button = gtk_builder_get_object(builder, "load_button");
-    g_signal_connect(load_button, "clicked", G_CALLBACK(load_image), image);
+    GObject *button;
+    button = gtk_builder_get_object(builder, "load_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(load_button), image);
 
-    GObject *quit_button = gtk_builder_get_object(builder, "quit_button");
-    g_signal_connect(quit_button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
+    button = gtk_builder_get_object(builder, "grayscale_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(grayscale_button), image);
+
+    button = gtk_builder_get_object(builder, "binarize_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(binarize_button), image);
+
+    button = gtk_builder_get_object(builder, "quit_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
 
     g_object_unref(G_OBJECT(builder));
     gtk_widget_show(window);

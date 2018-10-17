@@ -3,6 +3,8 @@
 
 #include <gtk/gtk.h>
 
-void load_image(GtkButton* button, gpointer user_data);
+void load_button(GtkButton *button, gpointer user_data);
+void grayscale_button(GtkButton *button, gpointer user_data);
+void binarize_button(GtkButton *button, gpointer user_data);
 
 #endif

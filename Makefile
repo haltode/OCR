@@ -14,6 +14,8 @@ SRC = 	main.c ocr.c \
 	neural_network/neural_network.c \
 	neural_network/propagation.c \
 	neural_network/training.c \
+	preprocessing/binarization.c \
+	preprocessing/grayscale.c \
 	preprocessing/preprocessing.c \
 	utils/image.c \
 	utils/matrix.c \

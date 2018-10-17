@@ -6,5 +6,6 @@
 void load_button(GtkButton *button, gpointer user_data);
 void grayscale_button(GtkButton *button, gpointer user_data);
 void binarize_button(GtkButton *button, gpointer user_data);
+void detect_lines_button(GtkButton *button, gpointer user_data);
 
 #endif

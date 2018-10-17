@@ -8,6 +8,24 @@
 
 const char *g_detect_lines_img_path = "output/image_detect_lines.bmp";
 
+static bool is_blank_line(SDL_Surface *image, int height)
+{
+    bool is_blank = true;
+    for (int w = 0; w < image->w && is_blank; w++)
+        if (!is_white_pixel(image, w, height))
+            is_blank = false;
+    return is_blank;
+}
+
+static void draw_red_line(SDL_Surface *image, int height)
+{
+    for (int w = 0; w < image->w; w++)
+    {
+        Uint32 red_pixel = SDL_MapRGB(image->format, 255, 0, 0);
+        image_set_pixel(image, w, height, red_pixel);
+    }
+}
+
 void line_detection(void)
 {
     SDL_Surface *image = SDL_LoadBMP(g_binarize_img_path);

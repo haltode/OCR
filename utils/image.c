@@ -82,21 +82,3 @@ bool is_white_pixel(SDL_Surface *image, int x, int y)
     SDL_GetRGB(pixel, image->format, &r, &g, &b);
     return r == 255 && g == 255 && b == 255;
 }
-
-bool is_blank_line(SDL_Surface *image, int height)
-{
-    bool is_blank_line = true;
-    for (int w = 0; w < image->w && is_blank_line; w++)
-        if (!is_white_pixel(image, w, height))
-            is_blank_line = false;
-    return is_blank_line;
-}
-
-void draw_red_line(SDL_Surface *image, int height)
-{
-    for (int w = 0; w < image->w; w++)
-    {
-        Uint32 red_pixel = SDL_MapRGB(image->format, 255, 0, 0);
-        image_set_pixel(image, w, height, red_pixel);
-    }
-}

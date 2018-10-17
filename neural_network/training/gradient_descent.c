@@ -2,7 +2,7 @@
 
 #include "../../utils/matrix.h"
 #include "../propagation.h"
-#include "gradient_descent.h"
+#include "training.h"
 
 static void network_update_neurons(struct Network *network, float modif_rate)
 {

@@ -3,7 +3,7 @@
 
 #include "../neural_network/neural_network.h"
 #include "../neural_network/propagation.h"
-#include "../neural_network/training/gradient_descent.h"
+#include "../neural_network/training/training.h"
 #include "../utils/matrix.h"
 
 const int xor_table[4][3] = {

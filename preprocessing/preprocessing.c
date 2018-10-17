@@ -3,8 +3,7 @@
 #include <SDL/SDL.h>
 
 #include "../segmentation/segmentation.h"
-#include "binarization.h"
-#include "grayscale.h"
+#include "preprocessing.h"
 
 const char *g_grayscale_img_path = "output/image_grayscale.bmp";
 const char *g_binarize_img_path = "output/image_binarize.bmp";

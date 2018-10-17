@@ -12,8 +12,8 @@ SRC = 	main.c \
 	interface/interface.c \
 	neural_network/neural_network.c \
 	neural_network/propagation.c \
-	neural_network/training/training.c \
 	neural_network/training/gradient_descent.c \
+	neural_network/training/training.c \
 	preprocessing/binarization.c \
 	preprocessing/grayscale.c \
 	preprocessing/preprocessing.c \

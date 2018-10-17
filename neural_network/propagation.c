@@ -45,13 +45,13 @@ void layer_backward(struct Layer *previous, struct Layer *current)
     matrix_free(previous->delta);
 
     struct Matrix *weight_transpose = matrix_transpose(current->weight);
-    struct Matrix *weight_x_delta = matrix_mul(weight_transpose, current->delta);
+    struct Matrix *wT_x_delta = matrix_mul(weight_transpose, current->delta);
     struct Matrix *in_sigmoid = matrix_apply_func(previous->in, sigmoid_prime);
 
-    previous->delta = matrix_hadamard_mul(weight_x_delta, in_sigmoid);
+    previous->delta = matrix_hadamard_mul(wT_x_delta, in_sigmoid);
 
     matrix_free(weight_transpose);
-    matrix_free(weight_x_delta);
+    matrix_free(wT_x_delta);
     matrix_free(in_sigmoid);
 }
 

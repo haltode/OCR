@@ -19,7 +19,7 @@ void load_button(GtkButton *button, gpointer user_data)
                         NULL);
     GtkFileFilter *filter = gtk_file_filter_new();
     gtk_file_filter_add_pixbuf_formats(filter);
-	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER (dialog), filter);
+    gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(dialog), filter);
 
     gint res = gtk_dialog_run(GTK_DIALOG(dialog));
     if (res == GTK_RESPONSE_ACCEPT)

@@ -7,4 +7,7 @@ extern const char *g_segmentation_img_path;
 
 void preprocessing(const char *image_path);
 
+void image_grayscale(const char *input_path, const char *output_path);
+void image_binarize(const char *input_path, const char *output_path);
+
 #endif

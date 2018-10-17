@@ -7,13 +7,13 @@ LDFLAGS =
 LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0) \
 	$(shell pkg-config --libs sdl) -lSDL_image
 
-SRC = 	main.c \
-	interface/buttons.c \
+SRC = 	interface/buttons.c \
 	interface/interface.c \
 	neural_network/neural_network.c \
 	neural_network/propagation.c \
 	neural_network/training/gradient_descent.c \
 	neural_network/training/training.c \
+	ocr.c \
 	preprocessing/binarization.c \
 	preprocessing/grayscale.c \
 	preprocessing/preprocessing.c \
@@ -30,10 +30,9 @@ DEP = ${SRC:.c=.d}
 
 .PHONY: all clean
 
-all: main
-	mv main ocr
+all: ocr
 
-main: ${OBJ}
+ocr: ${OBJ}
 
 clean:
 	${RM} ${OBJ}

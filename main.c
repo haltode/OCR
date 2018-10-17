@@ -3,17 +3,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "ocr.h"
+#include <gtk/gtk.h>
+
+#include "interface/interface.h"
+#include "tests/xor_network.h"
 
 int main(int argc, char *argv[])
 {
     srand(42);
-
-    if (argc <= 1)
-    {
-        printf("Try 'ocr --help' for more information.\n");
-        return -1;
-    }
 
     bool train = false;
     for (int i = 1; i < argc; i++)
@@ -28,9 +25,15 @@ int main(int argc, char *argv[])
     }
 
     if (train)
-        train_ocr();
+    {
+        printf("training xor network...\n");
+        test_xor_network();
+    }
     else
-        run_ocr();
+    {
+        gtk_init(&argc, &argv);
+        interface_start();
+    }
 
     return 0;
 }

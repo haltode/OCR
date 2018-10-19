@@ -6,6 +6,7 @@ CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2 \
 LDFLAGS =
 LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0) \
 	$(shell pkg-config --libs sdl) -lSDL_image
+VALGRIND = valgrind
 
 SRC = 	interface/buttons.c \
 	interface/interface.c \
@@ -28,7 +29,7 @@ SRC = 	interface/buttons.c \
 OBJ = ${SRC:.c=.o}
 DEP = ${SRC:.c=.d}
 
-.PHONY: all clean
+.PHONY: all clean check-valgrind
 
 all: ocr
 
@@ -38,5 +39,13 @@ clean:
 	${RM} ${OBJ}
 	${RM} ${DEP}
 	${RM} ocr
+
+check-valgrind:
+	${VALGRIND} \
+		--leak-check=full \
+		--show-leak-kinds=all \
+		--track-origins=yes \
+		--suppressions=glib.suppression \
+		./ocr --train
 
 -include ${DEP}

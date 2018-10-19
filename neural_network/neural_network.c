@@ -55,17 +55,6 @@ void network_free(struct Network *network)
     free(network);
 }
 
-int network_run(struct Network *network, struct Matrix *network_input)
-{
-    network_forward(network, network_input);
-
-    struct Layer *output_layer = &network->layers[network->nb_layers - 1];
-    float *output_vect = output_layer->out->mat;
-    size_t output_size = output_layer->out->nb_rows;
-
-    return argmax(output_vect, output_size);
-}
-
 void network_save(struct Network *network, const char *filename)
 {
     FILE *f = fopen(filename, "w");

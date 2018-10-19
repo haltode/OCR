@@ -10,6 +10,7 @@ VALGRIND = valgrind
 
 SRC = 	interface/buttons.c \
 	interface/interface.c \
+	neural_network/evaluate.c \
 	neural_network/neural_network.c \
 	neural_network/propagation.c \
 	neural_network/training/gradient_descent.c \

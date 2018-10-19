@@ -40,11 +40,9 @@ static int otsu_method(int histogram[256], int nb_pixels)
     return threshold;
 }
 
-void image_binarize(const char *input_path, const char *output_path)
+void image_binarize(SDL_Surface *image)
 {
-    SDL_Surface *image = SDL_LoadBMP(input_path);
     int histogram[256];
-
     for (int i = 0; i < 256; i++)
         histogram[i] = 0;
 
@@ -79,7 +77,4 @@ void image_binarize(const char *input_path, const char *output_path)
             image_set_pixel(image, w, h, new_pixel);
         }
     }
-
-    SDL_SaveBMP(image, output_path);
-    SDL_FreeSurface(image);
 }

@@ -1,15 +1,6 @@
-#include <err.h>
-
 #include "segmentation.h"
 
-void image_segmentation(const char *input_path, const char *output_path)
+void image_segmentation(SDL_Surface *binarize_image)
 {
-    SDL_Surface *image = SDL_LoadBMP(input_path);
-    if (image == NULL)
-        errx(3, "cannot load %s: %s", input_path, SDL_GetError());
-
-    detect_lines(image);
-
-    SDL_SaveBMP(image, output_path);
-    SDL_FreeSurface(image);
+    detect_lines(binarize_image);
 }

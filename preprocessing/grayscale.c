@@ -1,16 +1,9 @@
-#include <err.h>
-
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
 
 #include "../utils/image.h"
 
-void image_grayscale(const char *input_path, const char *output_path)
+void image_grayscale(SDL_Surface *image)
 {
-    SDL_Surface *image = IMG_Load(input_path);
-    if (image == NULL)
-        errx(3, "cannot load %s: %s", input_path, IMG_GetError());
-
     for (int w = 0; w < image->w; w++)
     {
         for (int h = 0; h < image->h; h++)
@@ -24,7 +17,4 @@ void image_grayscale(const char *input_path, const char *output_path)
             image_set_pixel(image, w, h, new_pixel);
         }
     }
-
-    SDL_SaveBMP(image, output_path);
-    SDL_FreeSurface(image);
 }

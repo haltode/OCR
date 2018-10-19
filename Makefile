@@ -32,6 +32,7 @@ DEP = ${SRC:.c=.d}
 .PHONY: all clean check-valgrind
 
 all: ocr
+	mkdir -p output
 
 ocr: ${OBJ}
 

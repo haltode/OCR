@@ -1,15 +1,15 @@
 #include "image.h"
 
-static Uint8* image_get_pixel_ref(SDL_Surface *image, int x, int y)
+static Uint8* image_get_pixel_ref(SDL_Surface *image, int w, int h)
 {
     int bpp = image->format->BytesPerPixel;
     Uint8 *pixels = image->pixels;
-    return pixels + y * image->pitch + x * bpp;
+    return pixels + h * image->pitch + w * bpp;
 }
 
-Uint32 image_get_pixel(SDL_Surface *image, int x, int y)
+Uint32 image_get_pixel(SDL_Surface *image, int w, int h)
 {
-    Uint8 *p = image_get_pixel_ref(image, x, y);
+    Uint8 *p = image_get_pixel_ref(image, w, h);
 
     switch (image->format->BytesPerPixel)
     {
@@ -37,9 +37,9 @@ Uint32 image_get_pixel(SDL_Surface *image, int x, int y)
     }
 }
 
-void image_set_pixel(SDL_Surface *image, int x, int y, Uint32 pixel)
+void image_set_pixel(SDL_Surface *image, int w, int h, Uint32 pixel)
 {
-    Uint8 *p = image_get_pixel_ref(image, x, y);
+    Uint8 *p = image_get_pixel_ref(image, w, h);
 
     switch (image->format->BytesPerPixel)
     {
@@ -75,10 +75,10 @@ void image_set_pixel(SDL_Surface *image, int x, int y, Uint32 pixel)
     }
 }
 
-bool is_white_pixel(SDL_Surface *image, int x, int y)
+bool is_white_pixel(SDL_Surface *image, int w, int h)
 {
     Uint8 r, g, b;
-    Uint32 pixel = image_get_pixel(image, x, y);
+    Uint32 pixel = image_get_pixel(image, w, h);
     SDL_GetRGB(pixel, image->format, &r, &g, &b);
     return r == 255 && g == 255 && b == 255;
 }

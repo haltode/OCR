@@ -11,4 +11,5 @@ void image_segmentation(const char *input_path, const char *output_path)
     detect_lines(image);
 
     SDL_SaveBMP(image, output_path);
+    SDL_FreeSurface(image);
 }

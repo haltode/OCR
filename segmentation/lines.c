@@ -34,6 +34,8 @@ static void draw_chars_boxes(SDL_Surface *text, int line_start, int line_end)
     SDL_BlitSurface(text, &line_rect, line, NULL);
     detect_chars(line);
     SDL_BlitSurface(line, NULL, text, &line_rect);
+
+    SDL_FreeSurface(line);
 }
 
 void detect_lines(SDL_Surface *text)

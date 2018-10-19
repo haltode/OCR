@@ -26,4 +26,5 @@ void image_grayscale(const char *input_path, const char *output_path)
     }
 
     SDL_SaveBMP(image, output_path);
+    SDL_FreeSurface(image);
 }

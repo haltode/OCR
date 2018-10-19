@@ -1,5 +1,3 @@
-#include <SDL/SDL.h>
-
 #include "../utils/image.h"
 
 void image_grayscale(SDL_Surface *image)

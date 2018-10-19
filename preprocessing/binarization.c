@@ -1,14 +1,33 @@
-#include <SDL/SDL.h>
+#include <stdlib.h>
 
 #include "../utils/image.h"
 
-static int otsu_method(int histogram[256], int nb_pixels)
+static int *get_histogram(SDL_Surface *image)
+{
+    int *histogram = calloc(256, sizeof(int));
+    for (int w = 0; w < image->w; w++)
+    {
+        for (int h = 0; h < image->h; h++)
+        {
+            Uint8 r, g, b;
+            Uint32 pixel = image_get_pixel(image, w, h);
+            SDL_GetRGB(pixel, image->format, &r, &g, &b);
+            // This is a grayscale image so we have r = g = b
+            histogram[r]++;
+        }
+    }
+    return histogram;
+}
+
+// Otsu's method for adaptive threshold
+static int get_threshold(SDL_Surface *image, int *histogram)
 {
     int threshold = 0;
     double current_max = 0.;
     int sum = 0;
     int sum_background = 0;
     int weight_background = 0;
+    int nb_pixels = image->w * image->h;
 
     for (int i = 0; i < 256; i++)
         sum += i * histogram[i];
@@ -23,12 +42,14 @@ static int otsu_method(int histogram[256], int nb_pixels)
         sum_background += i * histogram[i];
         int sum_foreground = sum - sum_background;
 
-        double mean_background = sum_background / (double) weight_background;
-        double mean_foreground = sum_foreground / (double) weight_foreground;
+        double f_weight_background = weight_background;
+        double f_weight_foreground = weight_foreground;
+        double mean_background = sum_background / f_weight_background;
+        double mean_foreground = sum_foreground / f_weight_foreground;
         double mean_diff = mean_background - mean_foreground;
 
-        double variance = (double) weight_background *
-                          (double) weight_foreground *
+        double variance = f_weight_background *
+                          f_weight_foreground *
                           mean_diff * mean_diff;
         if (variance > current_max)
         {
@@ -42,9 +63,8 @@ static int otsu_method(int histogram[256], int nb_pixels)
 
 void image_binarize(SDL_Surface *image)
 {
-    int histogram[256];
-    for (int i = 0; i < 256; i++)
-        histogram[i] = 0;
+    int *histogram = get_histogram(image);
+    int threshold = get_threshold(image, histogram);
 
     for (int w = 0; w < image->w; w++)
     {
@@ -53,22 +73,7 @@ void image_binarize(SDL_Surface *image)
             Uint8 r, g, b;
             Uint32 pixel = image_get_pixel(image, w, h);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            // grayscale image so we have r = g = b
-            histogram[r]++;
-        }
-    }
 
-    int nb_pixels = image->w * image->h;
-    int threshold = otsu_method(histogram, nb_pixels);
-
-    for (int w = 0; w < image->w; w++)
-    {
-        for (int h = 0; h < image->h; h++)
-        {
-            Uint8 r, g, b;
-            Uint32 pixel = image_get_pixel(image, w, h);
-            SDL_GetRGB(pixel, image->format, &r, &g, &b);
-            // grayscale image so we have r = g = b
             Uint32 new_pixel;
             if (r > threshold)
                 new_pixel = SDL_MapRGB(image->format, 255, 255, 255);
@@ -77,4 +82,6 @@ void image_binarize(SDL_Surface *image)
             image_set_pixel(image, w, h, new_pixel);
         }
     }
+
+    free(histogram);
 }

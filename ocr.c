@@ -19,7 +19,14 @@ int main(int argc, char *argv[])
             train = true;
         if (!strcmp(argv[i], "--help") || !strcmp(argv[i], "-h"))
         {
-            printf("TODO: write help\n");
+            printf("Usage: ocr [options]\n"
+                    "Optical character recognition software.\n"
+                    "\n"
+                    "Options:\n"
+                    "    -h, --help    "
+                    "Show this help.\n"
+                    "    -t, --train   "
+                    "Train the neural network.\n");
             return 0;
         }
     }

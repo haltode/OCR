@@ -1,0 +1,49 @@
+\chapter{Qualité du code (Thibault)}
+
+Ayant déjà codé en C depuis plusieurs années, je savais à quel point il était
+nécessaire d'être rigoureux dans l'implémentation de l'OCR.
+
+\epigraph{\textit{« Don't leave “broken windows” (bad designs, wrong decisions,
+or poor code) unrepaired. Fix each one as soon as it is discovered.  [...]
+neglect accelerates the rot faster than any other factor.»}}{--- \textup{The
+Pragmatic Programmer}}
+
+Il fallait tout d'abord se décider d'une \textit{coding style} à respecter,
+celle des ACU 2019 a donc été choisie.
+
+L'utilisation régulière de \mintinline{text}{valgrind} a permis de détecter et
+régler tous les problèmes liés à la mémoire. Une commande
+\mintinline{text}{check-valgrind} a été intégrée au Makefile permettant de
+vérifier tout de suite les potentielles fuites de mémoire :
+
+\begin{scriptsize}
+\begin{minted}{text}
+==7845== HEAP SUMMARY:
+==7845==     in use at exit: 49,212 bytes in 238 blocks
+==7845==   total heap usage: 2,160,403 allocs, 2,160,165 frees, 34,466,285 bytes allocated
+==7845==
+==7845== LEAK SUMMARY:
+==7845==    definitely lost: 0 bytes in 0 blocks
+==7845==    indirectly lost: 0 bytes in 0 blocks
+==7845==      possibly lost: 0 bytes in 0 blocks
+==7845==    still reachable: 0 bytes in 0 blocks
+==7845==                       of which reachable via heuristic:
+==7845==                         newarray           : 1,536 bytes in 16 blocks
+==7845==         suppressed: 49,212 bytes in 238 blocks
+==7845==
+==7845== For counts of detected and suppressed errors, rerun with: -v
+==7845== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 18 from 18)
+\end{minted}
+\end{scriptsize}
+
+\newpage
+
+Une partie du développement du projet fut consacré à la ré-écriture et la
+re-structuration du code source. Cette partie est trop souvent négligée et peut
+apparaître comme une perte de temps alors que c'est l'exact opposé. Des choix
+initiaux de conception seront très souvents erronés, car il est difficile
+d'anticiper correctement tous les éléments d'une implémentation. Il faut
+corriger ces failles au plus vite pour ne pas dépendre d'elles dans un futur
+proche. Garder un code simple, concis, modulaire, et clair a été notre objectif
+durant toute cette première période, car ceci est primordial pour le bon
+déroulement du projet.

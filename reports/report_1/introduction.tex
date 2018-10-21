@@ -1,0 +1,102 @@
+\chapter{Introduction}
+
+Durant cette première étape de projet, nous avons beaucoup appris tant sur le
+plan pratique que sur celui du travail en groupe. Tout d'abord, ce projet étant
+bien plus orienté que celui de SUP, il est clair que nous partions de très loin
+en termes de connaissances sur les réseaux de neurones. De plus, la majorité de
+notre groupe (3 personnes sur 4) n'avait encore jamais codé en C.
+
+Par conséquent, une longue phase de documentation à propos de la théorie de
+l'OCR mais aussi de son implémentation en C, ainsi que du langage en lui-même a
+été nécessaire. Ceci était primordial mais a donc légèrement retardé la phase
+d'implémentation.
+
+Malgré ce faible retard au début du projet nous avons réussi à avancer chacun
+nos parties afin d'atteindre les objectifs de la première soutenance.
+
+Nous avons également pris le temps de s'expliquer entre nous nos parties
+respectives afin d'être sûr que chacun ait pu avoir un apprentissage pratique
+comme théorique du projet dans sa globalité.
+
+Nous exposerons dans ce rapport l'avancement du logiciel d'OCR en tant que
+groupe ainsi qu'en tant qu'individus, puis expliquerons nos objectifs pour la
+prochaine soutenance.
+
+\begin{figure}
+    \includegraphics[width=1.1\textwidth]{calvin}
+    \caption*{\textit{Calvin and Hobbes}, Bill Watterson}
+\end{figure}
+
+\chapter{Présentation de l'équipe}
+
+\begin{itemize}
+    \item \textbf{Thibault Allançon (Chef de projet)} :
+
+        Prolotiste jusqu’au-boutiste et peu pacifiste. Heureusement pour lui,
+        Thibault est plus à l'aise en C qu'en rimes. D'ailleurs, il adore parler
+        de lui à la 3ème personne, ce qui le rend entièrement apte à diriger ce
+        projet de manière optimale (la preuve sera laissée comme exercice au
+        lecteur).
+
+    \item \textbf{Timothé Helme-Guizon} :
+
+        Amateur d'animés, jeux vidéo, et programmation, ce jeune homme semblait
+        paré à attaquer le projet d'OCR. Malheureusement, sa compréhension du
+        réseau de neurones fut impossible, car on ne peut comprendre cette
+        notion en ne possédant qu'un seul et unique neurone.
+
+    \item \textbf{Quentin Le Helloco} :
+
+        Autostoppeur intergalactique, il s'intéresse à l'intelligence
+        artificielle afin de faire de Skynet une réalité. L'OCR semble être un
+        bon moyen de commencer sa destruction de l'humanité (lorsqu'il n’est
+        n'est pas trop occupé à jouer au football avec des hot-wheels).
+
+    \item \textbf{Adrian Rivoire-Galkiewicz} :
+
+        Maître magicien à ses heures perdues, il a déjà réussi à faire
+        disparaître le nez d’un enfant. On le cherche toujours (l'enfant, pas le
+        nez). Devenu pro dans l’art de la manipulation, il a réussi à faire
+        croire pendant 18 années que son vrai nom était Adri\textbf{A}n alors
+        que tout le monde sait qu’il n’existe que la forme avec un \textbf{E}.
+        La légende raconte même qu'il est parvenu à infiltrer l'EPITA.
+\end{itemize}
+
+\chapter{Répartition des tâches}
+
+\begin{center}
+    \begin{tabular}{@{} l *4c @{}}
+        \toprule
+        \multicolumn{1}{c}{} &
+            \textbf{Thibault} & \textbf{Timothé}  &
+            \textbf{Quentin} & \textbf{Adrian} \\
+        \midrule
+        Réseau de neurones & R & & S & \\
+        Suppression couleurs & & & & R \\
+        Pré-traitement & S & S & R & \\
+        Segmentation & S & R & & \\
+        Interface & & & S & R \\
+        \bottomrule
+        \multicolumn{4}{l}{\footnotesize R = responsable, S = suppléant}\\
+    \end{tabular}
+\end{center}
+
+\vspace{2em}
+
+\begin{center}
+    \begin{tabular}{@{} l *4c @{}}
+        \toprule
+        \multicolumn{1}{c}{} & \textbf{Soutenance 1}  & \textbf{Soutenance 2} \\
+        \midrule
+        \textbf{Réseau de neurones} \\
+        Structure du réseau & 80\% & 100\% \\
+        Apprentissage & 60\% & 100\% \\
+        Jeu de données & 45\% & 100\% \\\\
+        \textbf{Pré-traitement} \\
+        Suppression des couleurs & 90\% & 100\% \\
+        Formatage de l'image & 0\% & 100\% \\\\
+        \textbf{Segmentation} & 55\% & 100\% \\\\
+        \textbf{Interface} & 30\% & 100\% \\
+        \bottomrule
+    \end{tabular}
+\end{center}

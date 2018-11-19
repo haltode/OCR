@@ -1,3 +1,5 @@
 *.d
 *.o
 ocr
+output/
+dataset/train_set/

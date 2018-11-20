@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 #include "matrix.h"
-#include "random.h"
 
 struct Matrix *matrix_alloc(size_t nb_rows, size_t nb_cols)
 {
@@ -150,12 +149,6 @@ struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float))
     for (size_t idx = 0; idx < res->nb_rows * res->nb_cols; idx++)
         res->mat[idx] = (*func)(matrix->mat[idx]);
     return res;
-}
-
-void matrix_fill_random(struct Matrix *matrix, float lower, float upper)
-{
-    for (size_t idx = 0; idx < matrix->nb_rows * matrix->nb_cols; idx++)
-        matrix->mat[idx] = random_float(lower, upper);
 }
 
 void matrix_print(struct Matrix *matrix, FILE *f)

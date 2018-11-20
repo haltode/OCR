@@ -1,7 +1,9 @@
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "../utils/math.h"
+#include "../utils/random.h"
 #include "neural_network.h"
 #include "propagation.h"
 
@@ -26,8 +28,15 @@ static void layer_free(struct Layer *layer)
 
 static void layer_random_init(struct Layer *layer)
 {
-    matrix_fill_random(layer->weight, 0., 1.);
-    matrix_fill_random(layer->bias, 0., 1.);
+    size_t weight_size = layer->weight->nb_rows * layer->weight->nb_cols;
+    double sqrt_n = sqrt(layer->weight->nb_cols);
+    for (size_t idx = 0; idx < weight_size; idx++)
+        // Truncated normal distribution
+        layer->weight->mat[idx] = normal_distribution(0., 1.) / sqrt_n;
+
+    size_t bias_size = layer->bias->nb_rows * layer->bias->nb_cols;
+    for (size_t idx = 0; idx < bias_size; idx++)
+        layer->bias->mat[idx] = normal_distribution(0., 1.);
 }
 
 struct Network *network_alloc(size_t nb_layers, size_t *layers_size)

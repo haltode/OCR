@@ -22,6 +22,7 @@ SRC = 	interface/buttons.c \
 	segmentation/chars.c \
 	segmentation/lines.c \
 	segmentation/segmentation.c \
+	tests/random.c \
 	tests/xor_network.c \
 	utils/image.c \
 	utils/math.c \

@@ -34,7 +34,7 @@ void test_xor_network(void)
     for (size_t i = 0; i < 4; i++)
         setup_training_data(train_set, i);
 
-    const size_t nb_epochs = 10000;
+    const size_t nb_epochs = 1000;
     const float learning_rate = 3.;
     gradient_descent(network, train_set, nb_epochs, learning_rate);
 

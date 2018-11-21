@@ -29,15 +29,9 @@ void network_forward(struct Network *network, struct Matrix *network_input)
 void network_compute_error(struct Network *network, struct Matrix *desired_out)
 {
     struct Layer *output_layer = &network->layers[network->nb_layers - 1];
+
     matrix_free(output_layer->delta);
-
-    struct Matrix *out_diff = matrix_sub(output_layer->out, desired_out);
-    struct Matrix *in_sig = matrix_apply_func(output_layer->in, sigmoid_prime);
-
-    output_layer->delta = matrix_hadamard_mul(out_diff, in_sig);
-
-    matrix_free(out_diff);
-    matrix_free(in_sig);
+    output_layer->delta = matrix_sub(output_layer->out, desired_out);
 }
 
 void layer_backward(struct Layer *previous, struct Layer *current)

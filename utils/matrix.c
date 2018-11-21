@@ -18,10 +18,15 @@ void matrix_free(struct Matrix *matrix)
     free(matrix);
 }
 
+size_t matrix_size(struct Matrix *matrix)
+{
+    return matrix->nb_rows * matrix->nb_cols;
+}
+
 struct Matrix *matrix_copy(struct Matrix *matrix)
 {
     struct Matrix *copy = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
-    for (size_t idx = 0; idx < matrix->nb_rows * matrix->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
         copy->mat[idx] = matrix->mat[idx];
     return copy;
 }
@@ -45,7 +50,7 @@ struct Matrix *matrix_add(struct Matrix *a, struct Matrix *b)
     }
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         res->mat[idx] = a->mat[idx] + b->mat[idx];
     return res;
 }
@@ -59,7 +64,7 @@ struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b)
     }
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         res->mat[idx] = a->mat[idx] - b->mat[idx];
     return res;
 }
@@ -67,7 +72,7 @@ struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b)
 struct Matrix *matrix_scalar(struct Matrix *a, float scalar)
 {
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         res->mat[idx] = a->mat[idx] * scalar;
     return res;
 }
@@ -102,7 +107,7 @@ struct Matrix *matrix_hadamard_mul(struct Matrix *a, struct Matrix *b)
     }
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         res->mat[idx] = a->mat[idx] * b->mat[idx];
     return res;
 }
@@ -115,7 +120,7 @@ void matrix_add_inplace(struct Matrix *a, struct Matrix *b)
         return;
     }
 
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         a->mat[idx] += b->mat[idx];
 }
 
@@ -127,7 +132,7 @@ void matrix_sub_inplace(struct Matrix *a, struct Matrix *b)
         return;
     }
 
-    for (size_t idx = 0; idx < a->nb_rows * a->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(a); idx++)
         a->mat[idx] -= b->mat[idx];
 }
 
@@ -146,7 +151,7 @@ struct Matrix *matrix_transpose(struct Matrix *matrix)
 struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float))
 {
     struct Matrix *res = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
-    for (size_t idx = 0; idx < res->nb_rows * res->nb_cols; idx++)
+    for (size_t idx = 0; idx < matrix_size(res); idx++)
         res->mat[idx] = (*func)(matrix->mat[idx]);
     return res;
 }
@@ -167,11 +172,10 @@ void matrix_print(struct Matrix *matrix, FILE *f)
 
 void matrix_print_inline(struct Matrix *matrix, FILE *f)
 {
-    size_t nb_ele = matrix->nb_rows * matrix->nb_cols;
-    for (size_t idx = 0; idx < nb_ele; idx++)
+    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
     {
         fprintf(f, "%f", matrix->mat[idx]);
-        if (idx + 1 < nb_ele)
+        if (idx + 1 < matrix_size(matrix))
             fprintf(f, " ");
     }
     fprintf(f, "\n");

@@ -28,14 +28,12 @@ static void layer_free(struct Layer *layer)
 
 static void layer_random_init(struct Layer *layer)
 {
-    size_t weight_size = layer->weight->nb_rows * layer->weight->nb_cols;
     double sqrt_n = sqrt(layer->weight->nb_cols);
-    for (size_t idx = 0; idx < weight_size; idx++)
+    for (size_t idx = 0; idx < matrix_size(layer->weight); idx++)
         // Truncated normal distribution
         layer->weight->mat[idx] = normal_distribution(0., 1.) / sqrt_n;
 
-    size_t bias_size = layer->bias->nb_rows * layer->bias->nb_cols;
-    for (size_t idx = 0; idx < bias_size; idx++)
+    for (size_t idx = 0; idx < matrix_size(layer->bias); idx++)
         layer->bias->mat[idx] = normal_distribution(0., 1.);
 }
 
@@ -113,13 +111,11 @@ struct Network *network_load(const char *filename)
     {
         struct Layer *layer = &network->layers[i];
 
-        size_t nb_ele = layer->weight->nb_rows * layer->weight->nb_cols;
-        for (size_t idx = 0; idx < nb_ele; idx++)
+        for (size_t idx = 0; idx < matrix_size(layer->weight); idx++)
             fscanf(f, "%f", &layer->weight->mat[idx]);
         fscanf(f, "\n");
 
-        nb_ele = layer->bias->nb_rows * layer->bias->nb_cols;
-        for (size_t idx = 0; idx < nb_ele; idx++)
+        for (size_t idx = 0; idx < matrix_size(layer->bias); idx++)
             fscanf(f, "%f", &layer->bias->mat[idx]);
         fscanf(f, "\n");
     }

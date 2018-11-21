@@ -13,6 +13,7 @@ struct Matrix
 
 struct Matrix *matrix_alloc(size_t nb_rows, size_t nb_cols);
 void matrix_free(struct Matrix *matrix);
+size_t matrix_size(struct Matrix *matrix);
 struct Matrix *matrix_copy(struct Matrix *matrix);
 
 float matrix_get(struct Matrix *matrix, size_t row, size_t col);

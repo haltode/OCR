@@ -37,5 +37,5 @@ check-valgrind:
 		--leak-check=full \
 		--show-leak-kinds=all \
 		--track-origins=yes \
-		--suppressions=glib.suppression \
+		--suppressions=.glib.suppression \
 		./ocr --train

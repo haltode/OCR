@@ -5,7 +5,7 @@
 void interface_start(void)
 {
     GtkBuilder *builder = gtk_builder_new();
-    gtk_builder_add_from_file(builder, "interface/interface.glade", NULL);
+    gtk_builder_add_from_file(builder, "src/interface/interface.glade", NULL);
 
     GtkWidget *window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);

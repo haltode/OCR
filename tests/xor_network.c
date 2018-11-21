@@ -30,16 +30,21 @@ void test_xor_network(void)
     size_t layers_size[] = {2, 2, 1};
     struct Network *network = network_alloc(3, layers_size);
 
-    struct TrainingSet *train_set = train_set_alloc(4);
-    for (size_t i = 0; i < 4; i++)
+    struct Params params;
+    params.nb_examples = 4;
+    params.nb_epochs = 1000;
+    params.mini_batch_size = 4;
+    params.learn_rate = 0.5;
+    params.regularization_rate = 0;
+
+    struct TrainingSet *train_set = train_set_alloc(params);
+    for (size_t i = 0; i < params.nb_examples; i++)
         setup_training_data(train_set, i);
 
-    const size_t nb_epochs = 1000;
-    const float learning_rate = 3.;
-    gradient_descent(network, train_set, nb_epochs, learning_rate);
+    gradient_descent(network, train_set);
 
     printf("\n");
-    for (size_t i = 0; i < 4; i++)
+    for (size_t i = 0; i < params.nb_examples; i++)
     {
         struct TrainingData *example = &train_set->examples[i];
         printf("input: %f %f\n", example->in->mat[0], example->in->mat[1]);

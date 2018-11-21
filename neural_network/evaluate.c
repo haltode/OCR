@@ -18,7 +18,7 @@ int network_run(struct Network *network, struct Matrix *network_input)
 void network_evaluate(struct Network *network, struct TrainingSet *train_set)
 {
     int nb_correct = 0;
-    for (size_t i = 0; i < train_set->nb_examples; i++)
+    for (size_t i = 0; i < train_set->params.nb_examples; i++)
     {
         struct TrainingData *example = &train_set->examples[i];
         int res = network_run(network, example->in);
@@ -26,5 +26,5 @@ void network_evaluate(struct Network *network, struct TrainingSet *train_set)
             nb_correct++;
     }
 
-    printf("accuracy: %d / %zu\n", nb_correct, train_set->nb_examples);
+    printf("accuracy: %d / %zu\n", nb_correct, train_set->params.nb_examples);
 }

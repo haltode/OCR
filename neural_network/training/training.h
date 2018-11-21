@@ -30,6 +30,8 @@ struct TrainingSet
 struct TrainingSet *train_set_alloc(struct Params params);
 void train_set_free(struct TrainingSet *train_set);
 
+void random_shuffle_set(struct TrainingSet *train_set);
+
 void network_train(void);
 void gradient_descent(
     struct Network *network, struct TrainingSet *train_set);

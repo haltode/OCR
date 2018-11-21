@@ -36,6 +36,37 @@ static void network_update_neurons(struct Network *network, struct Params params
     }
 }
 
+static struct TrainingSet *get_mini_batch(
+    struct TrainingSet *train_set, size_t batch_id)
+{
+    struct Params params = train_set->params;
+    params.nb_examples = train_set->params.mini_batch_size;
+    params.nb_epochs = 0;
+    params.mini_batch_size = 0;
+
+    struct TrainingSet *batch = train_set_alloc(params);
+    for (size_t i = 0; i < params.nb_examples; i++)
+    {
+        size_t j = batch_id * train_set->params.mini_batch_size + i;
+        batch->examples[i].in = matrix_copy(train_set->examples[j].in);
+        batch->examples[i].out = matrix_copy(train_set->examples[j].out);
+    }
+
+    return batch;
+}
+
+static void gradient_descent_step(struct Network *network,
+    struct TrainingSet *batch, struct Params training_params)
+{
+    for (size_t i = 0; i < batch->params.nb_examples; i++)
+    {
+        network_forward(network, batch->examples[i].in);
+        network_compute_error(network, batch->examples[i].out);
+        network_backward(network);
+        network_update_neurons(network, training_params);
+    }
+}
+
 void gradient_descent(
     struct Network *network, struct TrainingSet *train_set)
 {
@@ -51,15 +82,15 @@ void gradient_descent(
 
     for (size_t epoch = 1; epoch <= train_set->params.nb_epochs; epoch++)
     {
-        // TODO: random shuffle + mini batch
-        struct TrainingSet *batch = train_set;
+        random_shuffle_set(train_set);
 
-        for (size_t i = 0; i < batch->params.nb_examples; i++)
+        size_t nb_batch =
+            train_set->params.nb_examples / train_set->params.mini_batch_size;
+        for (size_t batch_id = 0; batch_id < nb_batch; batch_id++)
         {
-            network_forward(network, batch->examples[i].in);
-            network_compute_error(network, batch->examples[i].out);
-            network_backward(network);
-            network_update_neurons(network, train_set->params);
+            struct TrainingSet *batch = get_mini_batch(train_set, batch_id);
+            gradient_descent_step(network, batch, train_set->params);
+            train_set_free(batch);
         }
 
         if (epoch % 1000 == 0)

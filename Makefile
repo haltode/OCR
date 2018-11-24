@@ -32,10 +32,10 @@ clean:
 	${RM} ${DEP}
 	${RM} ocr
 
-check-valgrind:
+check-valgrind: ocr
 	${VALGRIND} \
 		--leak-check=full \
 		--show-leak-kinds=all \
 		--track-origins=yes \
 		--suppressions=.glib.suppression \
-		./ocr --train
+		./ocr --test xor

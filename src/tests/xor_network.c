@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -43,19 +44,23 @@ void test_xor_network(void)
     for (size_t i = 0; i < params.nb_examples; i++)
         setup_training_data(train_set, i);
 
-    gradient_descent(network, params, train_set);
+    struct Dataset *validation_set = train_set;
+    bool verbose = false;
+    gradient_descent(network, params, train_set, validation_set, verbose);
 
-    network_evaluate(network, train_set);
+    printf("accuracy: %.2f%%\n", network_evaluate_accuracy(network, train_set));
+    printf("cost: %.2f\n", network_evaluate_cost(network, params, train_set));
+
     printf("\nDetails:\n");
     for (size_t i = 0; i < params.nb_examples; i++)
     {
         struct ExampleData *example = &train_set->examples[i];
         printf("input: %f %f\n", example->in->mat[0], example->in->mat[1]);
-        int network_res = network_run(network, example->in);
 
-        struct Layer *output_layer = &network->layers[network->nb_layers - 1];
-        float raw_out0 = output_layer->out->mat[0];
-        float raw_out1 = output_layer->out->mat[1];
+        struct Matrix *network_output = network_run(network, example->in);
+        float raw_out0 = network_output->mat[0];
+        float raw_out1 = network_output->mat[1];
+        int network_res = matrix_argmax(network_output);
         printf("output: %f %f => %d\n\n", raw_out0, raw_out1, network_res);
     }
 

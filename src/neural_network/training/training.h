@@ -1,6 +1,8 @@
 #ifndef TRAINING_H
 #define TRAINING_H
 
+#include <stdbool.h>
+
 #include "../neural_network.h"
 #include "dataset.h"
 
@@ -15,6 +17,7 @@ struct TrainingParams
 
 void gradient_descent(
     struct Network *network, struct TrainingParams params,
-    struct Dataset *train_set);
+    struct Dataset *train_set, struct Dataset *validation_set,
+    bool verbose);
 
 #endif

@@ -156,6 +156,15 @@ struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float))
     return res;
 }
 
+int matrix_argmax(struct Matrix *matrix)
+{
+    int max_idx = 0;
+    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
+        if (matrix->mat[idx] > matrix->mat[max_idx])
+            max_idx = idx;
+    return max_idx;
+}
+
 void matrix_print(struct Matrix *matrix, FILE *f)
 {
     for (size_t r = 0; r < matrix->nb_rows; r++)

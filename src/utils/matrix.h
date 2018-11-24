@@ -30,6 +30,7 @@ void matrix_sub_inplace(struct Matrix *a, struct Matrix *b);
 
 struct Matrix *matrix_transpose(struct Matrix *matrix);
 struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float));
+int matrix_argmax(struct Matrix *matrix);
 
 void matrix_print(struct Matrix *matrix, FILE *f);
 void matrix_print_inline(struct Matrix *matrix, FILE *f);

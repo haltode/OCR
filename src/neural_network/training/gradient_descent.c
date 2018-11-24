@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "../propagation.h"
+#include "../evaluate.h"
 #include "training.h"
 
 static void network_update_neurons(
@@ -63,7 +64,8 @@ static void gradient_descent_step(
 
 void gradient_descent(
     struct Network *network, struct TrainingParams params,
-    struct Dataset *train_set)
+    struct Dataset *train_set, struct Dataset *validation_set,
+    bool verbose)
 {
     printf("training network with parameters:\n"
            "nb_examples: %zu\n"
@@ -88,7 +90,14 @@ void gradient_descent(
             dataset_free(batch);
         }
 
-        if (epoch % 1000 == 0)
+        if (verbose)
+        {
             printf("done epoch %zu\n", epoch);
+            printf("validation set results:\n"
+                   "accuracy: %.2f%%\n"
+                   "cost: %.2f\n\n",
+                network_evaluate_accuracy(network, validation_set),
+                network_evaluate_cost(network, params, validation_set));
+        }
     }
 }

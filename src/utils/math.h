@@ -5,6 +5,5 @@
 
 float sigmoid(float x);
 float sigmoid_prime(float x);
-int argmax(float *array, size_t size);
 
 #endif

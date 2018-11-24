@@ -3,8 +3,10 @@
 
 #include <SDL2/SDL.h>
 
-void image_segmentation(SDL_Surface *binarize_image);
-void detect_lines(SDL_Surface *text);
-void detect_chars(SDL_Surface *line);
+extern const char *g_segmentation_img_path;
+
+int segmentation(void);
+void detect_lines(SDL_Surface *text, int *char_cnt);
+void detect_chars(SDL_Surface *line, int *char_cnt);
 
 #endif

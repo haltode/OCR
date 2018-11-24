@@ -1,5 +1,3 @@
-#include <err.h>
-
 #include "../utils/image.h"
 #include "segmentation.h"
 
@@ -21,7 +19,8 @@ static void draw_red_line(SDL_Surface *text, int height)
     }
 }
 
-static void draw_chars_boxes(SDL_Surface *text, int line_start, int line_end)
+static void extract_lines_from_text(SDL_Surface *text,
+    int line_start, int line_end, int *char_cnt)
 {
     SDL_Rect line_rect;
     line_rect.y = line_start;
@@ -32,13 +31,13 @@ static void draw_chars_boxes(SDL_Surface *text, int line_start, int line_end)
         SDL_CreateRGBSurface(0, line_rect.w, line_rect.h, 32, 0, 0, 0, 0);
 
     SDL_BlitSurface(text, &line_rect, line, NULL);
-    detect_chars(line);
+    detect_chars(line, char_cnt);
     SDL_BlitSurface(line, NULL, text, &line_rect);
 
     SDL_FreeSurface(line);
 }
 
-void detect_lines(SDL_Surface *text)
+void detect_lines(SDL_Surface *text, int *char_cnt)
 {
     int h = 0;
     while (h < text->h)
@@ -58,7 +57,7 @@ void detect_lines(SDL_Surface *text)
         if (h < text->h)
         {
             line_end = h;
-            draw_chars_boxes(text, line_start, line_end);
+            extract_lines_from_text(text, line_start, line_end, char_cnt);
             draw_red_line(text, h);
         }
 

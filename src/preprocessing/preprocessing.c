@@ -2,12 +2,10 @@
 
 #include <SDL2/SDL_image.h>
 
-#include "../segmentation/segmentation.h"
 #include "preprocessing.h"
 
 const char *g_grayscale_img_path = "output/image_grayscale.bmp";
 const char *g_binarize_img_path = "output/image_binarize.bmp";
-const char *g_segmentation_img_path = "output/image_segmentation.bmp";
 
 void preprocessing(const char *image_path)
 {
@@ -20,9 +18,6 @@ void preprocessing(const char *image_path)
 
     image_binarize(image);
     SDL_SaveBMP(image, g_binarize_img_path);
-
-    image_segmentation(image);
-    SDL_SaveBMP(image, g_segmentation_img_path);
 
     SDL_FreeSurface(image);
 }

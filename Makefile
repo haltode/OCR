@@ -13,7 +13,7 @@ DEP = ${SRC:.c=.d}
 
 
 all: ocr
-	mkdir -p output
+	mkdir -p output/chars
 
 ocr: ${OBJ}
 	@echo "Linking ocr binary..."

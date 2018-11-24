@@ -1,4 +1,5 @@
 #include "../preprocessing/preprocessing.h"
+#include "../segmentation/segmentation.h"
 #include "buttons.h"
 
 void load_button(GtkButton *button, gpointer user_data)
@@ -28,7 +29,9 @@ void load_button(GtkButton *button, gpointer user_data)
         gchar *filename = gtk_file_chooser_get_filename(chooser);
 
         gtk_image_set_from_file(GTK_IMAGE(image), filename);
+
         preprocessing(filename);
+        segmentation();
 
         g_free(filename);
     }

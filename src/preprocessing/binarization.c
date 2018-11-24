@@ -5,12 +5,12 @@
 static int *get_histogram(SDL_Surface *image)
 {
     int *histogram = calloc(256, sizeof(int));
-    for (int w = 0; w < image->w; w++)
+    for (int h = 0; h < image->h; h++)
     {
-        for (int h = 0; h < image->h; h++)
+        for (int w = 0; w < image->w; w++)
         {
             Uint8 r, g, b;
-            Uint32 pixel = image_get_pixel(image, w, h);
+            Uint32 pixel = image_get_pixel(image, h, w);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
             // This is a grayscale image so we have r = g = b
             histogram[r]++;
@@ -27,7 +27,7 @@ static int get_threshold(SDL_Surface *image, int *histogram)
     int sum = 0;
     int sum_background = 0;
     int weight_background = 0;
-    int nb_pixels = image->w * image->h;
+    int nb_pixels = image->h * image->w;
 
     for (int i = 0; i < 256; i++)
         sum += i * histogram[i];
@@ -66,12 +66,12 @@ void image_binarize(SDL_Surface *image)
     int *histogram = get_histogram(image);
     int threshold = get_threshold(image, histogram);
 
-    for (int w = 0; w < image->w; w++)
+    for (int h = 0; h < image->h; h++)
     {
-        for (int h = 0; h < image->h; h++)
+        for (int w = 0; w < image->w; w++)
         {
             Uint8 r, g, b;
-            Uint32 pixel = image_get_pixel(image, w, h);
+            Uint32 pixel = image_get_pixel(image, h, w);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
 
             Uint32 new_pixel;
@@ -79,7 +79,7 @@ void image_binarize(SDL_Surface *image)
                 new_pixel = SDL_MapRGB(image->format, 255, 255, 255);
             else
                 new_pixel = SDL_MapRGB(image->format, 0, 0, 0);
-            image_set_pixel(image, w, h, new_pixel);
+            image_set_pixel(image, h, w, new_pixel);
         }
     }
 

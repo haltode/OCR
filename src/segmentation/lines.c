@@ -7,7 +7,7 @@ static bool is_blank_line(SDL_Surface *text, int height)
 {
     bool is_blank = true;
     for (int w = 0; w < text->w && is_blank; w++)
-        if (!is_white_pixel(text, w, height))
+        if (!is_white_pixel(text, height, w))
             is_blank = false;
     return is_blank;
 }
@@ -17,17 +17,17 @@ static void draw_red_line(SDL_Surface *text, int height)
     for (int w = 0; w < text->w; w++)
     {
         Uint32 red_pixel = SDL_MapRGB(text->format, 255, 0, 0);
-        image_set_pixel(text, w, height, red_pixel);
+        image_set_pixel(text, height, w, red_pixel);
     }
 }
 
 static void draw_chars_boxes(SDL_Surface *text, int line_start, int line_end)
 {
     SDL_Rect line_rect;
-    line_rect.x = 0;
     line_rect.y = line_start;
-    line_rect.w = text->w;
+    line_rect.x = 0;
     line_rect.h = line_end - line_start + 1;
+    line_rect.w = text->w;
     SDL_Surface *line =
         SDL_CreateRGBSurface(0, line_rect.w, line_rect.h, 32, 0, 0, 0, 0);
 

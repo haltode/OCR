@@ -7,7 +7,7 @@ static bool is_blank_column(SDL_Surface *line, int width)
 {
     bool is_blank = true;
     for (int h = 0; h < line->h && is_blank; h++)
-        if (!is_white_pixel(line, width, h))
+        if (!is_white_pixel(line, h, width))
             is_blank = false;
     return is_blank;
 }
@@ -17,7 +17,7 @@ static void draw_red_column(SDL_Surface *line, int width)
     for (int h = 0; h < line->h; h++)
     {
         Uint32 red_pixel = SDL_MapRGB(line->format, 255, 0, 0);
-        image_set_pixel(line, width, h, red_pixel);
+        image_set_pixel(line, h, width, red_pixel);
     }
 }
 

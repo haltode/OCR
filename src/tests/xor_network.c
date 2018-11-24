@@ -14,7 +14,7 @@ const int xor_table[4][4] = {
     {1, 1, 1, 0}
 };
 
-static void setup_training_data(struct TrainingSet *train_set, size_t idx)
+static void setup_training_data(struct Dataset *train_set, size_t idx)
 {
     struct Matrix *in = matrix_alloc(2, 1);
     in->mat[0] = xor_table[idx][0];
@@ -23,7 +23,7 @@ static void setup_training_data(struct TrainingSet *train_set, size_t idx)
     out->mat[0] = xor_table[idx][2];
     out->mat[1] = xor_table[idx][3];
 
-    struct TrainingData example = {in, out};
+    struct ExampleData example = {in, out};
     train_set->examples[idx] = example;
 }
 
@@ -32,24 +32,24 @@ void test_xor_network(void)
     size_t layers_size[] = {2, 3, 2};
     struct Network *network = network_alloc(3, layers_size);
 
-    struct Params params;
+    struct TrainingParams params;
     params.nb_examples = 4;
     params.nb_epochs = 1000;
     params.mini_batch_size = 4;
     params.learn_rate = 0.5;
     params.regularization_rate = 0;
 
-    struct TrainingSet *train_set = train_set_alloc(params);
+    struct Dataset *train_set = dataset_alloc(params.nb_examples);
     for (size_t i = 0; i < params.nb_examples; i++)
         setup_training_data(train_set, i);
 
-    gradient_descent(network, train_set);
+    gradient_descent(network, params, train_set);
 
     network_evaluate(network, train_set);
     printf("\nDetails:\n");
     for (size_t i = 0; i < params.nb_examples; i++)
     {
-        struct TrainingData *example = &train_set->examples[i];
+        struct ExampleData *example = &train_set->examples[i];
         printf("input: %f %f\n", example->in->mat[0], example->in->mat[1]);
         int network_res = network_run(network, example->in);
 
@@ -61,6 +61,6 @@ void test_xor_network(void)
 
     network_save(network, "output/xor_network");
 
-    train_set_free(train_set);
+    dataset_free(train_set);
     network_free(network);
 }

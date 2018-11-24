@@ -4,11 +4,9 @@
 #include <stdbool.h>
 
 #include "neural_network.h"
-#include "training/training.h"
+#include "training/dataset.h"
 
 int network_run(struct Network *network, struct Matrix *network_input);
-bool is_network_correct(struct Network *network,
-    struct Matrix *network_input, struct Matrix *expected_output);
-void network_evaluate(struct Network *network, struct TrainingSet *train_set);
+void network_evaluate(struct Network *network, struct Dataset *dataset);
 
 #endif

@@ -1,14 +1,13 @@
 #include <stdio.h>
 
-#include "../../utils/matrix.h"
 #include "../propagation.h"
 #include "training.h"
 
-static void network_update_neurons(struct Network *network, struct Params params)
+static void network_update_neurons(
+    struct Network *network, struct TrainingParams params)
 {
     float weight_modif_rate =
         (params.learn_rate / params.mini_batch_size) *
-        // L2 regularization
         (1 - params.learn_rate *
             (params.regularization_rate / params.nb_examples));
     float bias_modif_rate = params.learn_rate / params.mini_batch_size;
@@ -36,39 +35,35 @@ static void network_update_neurons(struct Network *network, struct Params params
     }
 }
 
-static struct TrainingSet *get_mini_batch(
-    struct TrainingSet *train_set, size_t batch_id)
+static struct Dataset *get_mini_batch(
+    struct Dataset *train_set, size_t batch_size, size_t batch_id)
 {
-    struct Params params = train_set->params;
-    params.nb_examples = train_set->params.mini_batch_size;
-    params.nb_epochs = 0;
-    params.mini_batch_size = 0;
-
-    struct TrainingSet *batch = train_set_alloc(params);
-    for (size_t i = 0; i < params.nb_examples; i++)
+    struct Dataset* batch = dataset_alloc(batch_size);
+    for (size_t i = 0; i < batch_size; i++)
     {
-        size_t j = batch_id * train_set->params.mini_batch_size + i;
+        size_t j = batch_id * batch_size + i;
         batch->examples[i].in = matrix_copy(train_set->examples[j].in);
         batch->examples[i].out = matrix_copy(train_set->examples[j].out);
     }
-
     return batch;
 }
 
-static void gradient_descent_step(struct Network *network,
-    struct TrainingSet *batch, struct Params training_params)
+static void gradient_descent_step(
+    struct Network *network, struct TrainingParams params,
+    struct Dataset *batch)
 {
-    for (size_t i = 0; i < batch->params.nb_examples; i++)
+    for (size_t i = 0; i < batch->nb_examples; i++)
     {
         network_forward(network, batch->examples[i].in);
         network_compute_error(network, batch->examples[i].out);
         network_backward(network);
-        network_update_neurons(network, training_params);
+        network_update_neurons(network, params);
     }
 }
 
 void gradient_descent(
-    struct Network *network, struct TrainingSet *train_set)
+    struct Network *network, struct TrainingParams params,
+    struct Dataset *train_set)
 {
     printf("training network with parameters:\n"
            "nb_examples: %zu\n"
@@ -76,21 +71,21 @@ void gradient_descent(
            "mini_batch_size: %zu\n"
            "learn_rate: %f\n"
            "regularization_rate: %f\n\n",
-        train_set->params.nb_examples, train_set->params.nb_epochs,
-        train_set->params.mini_batch_size,
-        train_set->params.learn_rate, train_set->params.regularization_rate);
+        params.nb_examples, params.nb_epochs,
+        params.mini_batch_size,
+        params.learn_rate, params.regularization_rate);
 
-    for (size_t epoch = 1; epoch <= train_set->params.nb_epochs; epoch++)
+    for (size_t epoch = 1; epoch <= params.nb_epochs; epoch++)
     {
-        random_shuffle_set(train_set);
+        dataset_random_shuffle(train_set);
 
-        size_t nb_batch =
-            train_set->params.nb_examples / train_set->params.mini_batch_size;
+        size_t nb_batch = params.nb_examples / params.mini_batch_size;
         for (size_t batch_id = 0; batch_id < nb_batch; batch_id++)
         {
-            struct TrainingSet *batch = get_mini_batch(train_set, batch_id);
-            gradient_descent_step(network, batch, train_set->params);
-            train_set_free(batch);
+            struct Dataset *batch =
+                get_mini_batch(train_set, params.mini_batch_size, batch_id);
+            gradient_descent_step(network, params, batch);
+            dataset_free(batch);
         }
 
         if (epoch % 1000 == 0)

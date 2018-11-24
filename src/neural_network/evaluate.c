@@ -15,7 +15,8 @@ int network_run(struct Network *network, struct Matrix *network_input)
     return argmax(output_vect, output_size);
 }
 
-bool is_network_correct(struct Network *network,
+static bool is_network_correct(
+    struct Network *network,
     struct Matrix *network_input, struct Matrix *expected_output)
 {
     int network_res = network_run(network, network_input);
@@ -27,17 +28,17 @@ bool is_network_correct(struct Network *network,
     return (network_res == expected_res);
 }
 
-void network_evaluate(struct Network *network, struct TrainingSet *train_set)
+void network_evaluate(struct Network *network, struct Dataset *dataset)
 {
     size_t nb_correct = 0;
-    for (size_t i = 0; i < train_set->params.nb_examples; i++)
+    for (size_t i = 0; i < dataset->nb_examples; i++)
     {
-        struct TrainingData *example = &train_set->examples[i];
+        struct ExampleData *example = &dataset->examples[i];
         if (is_network_correct(network, example->in, example->out))
             nb_correct++;
     }
 
-    float percentage = 100 * nb_correct / train_set->params.nb_examples;
+    float percentage = 100 * nb_correct / dataset->nb_examples;
     printf("accuracy: %zu / %zu (%.2f%%)\n",
-        nb_correct, train_set->params.nb_examples, percentage);
+        nb_correct, dataset->nb_examples, percentage);
 }

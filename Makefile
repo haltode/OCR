@@ -1,10 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2 \
 	$(shell pkg-config --cflags gtk+-3.0) \
-	$(shell pkg-config --cflags sdl)
+	$(shell pkg-config --cflags sdl2)
 LDFLAGS =
 LDLIBS = -lm $(shell pkg-config --libs gtk+-3.0) \
-	$(shell pkg-config --libs sdl) -lSDL_image
+	$(shell pkg-config --libs sdl2) -lSDL2_image
 VALGRIND = valgrind
 
 SRC = $(shell find src -name '*.c')

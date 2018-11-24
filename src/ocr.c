@@ -1,8 +1,11 @@
+#include <err.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <gtk/gtk.h>
 
 #include "interface/interface.h"
@@ -38,8 +41,17 @@ int main(int argc, char *argv[])
     }
     else
     {
+        if (SDL_Init(SDL_INIT_VIDEO) != 0)
+            errx(1, "could not initialize SDL: %s.\n", SDL_GetError());
+        int flags = IMG_INIT_JPG | IMG_INIT_PNG;
+        if (IMG_Init(flags) != flags)
+            errx(1, "could not initialize SDL_image: %s.\n", IMG_GetError());
         gtk_init(&argc, &argv);
+
         interface_start();
+
+        IMG_Quit();
+        SDL_Quit();
     }
 
     return 0;

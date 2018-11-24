@@ -1,7 +1,7 @@
 #ifndef SEGMENTATION_H
 #define SEGMENTATION_H
 
-#include <SDL/SDL.h>
+#include <SDL2/SDL.h>
 
 void image_segmentation(SDL_Surface *binarize_image);
 void detect_lines(SDL_Surface *text);

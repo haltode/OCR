@@ -8,7 +8,7 @@ struct Matrix *convert_image_to_matrix(SDL_Surface *image)
     {
         for (int w = 0; w < image->w; w++)
         {
-            float val = (is_white_pixel(image, h, w)) ? 1. : 0.;
+            float val = (is_white_pixel(image, h, w)) ? 0. : 1.;
             matrix_set(matrix, h * image->w + w, 0, val);
         }
     }

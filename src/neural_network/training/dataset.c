@@ -36,3 +36,19 @@ void dataset_random_shuffle(struct Dataset *dataset)
         dataset->examples[i] = tmp;
     }
 }
+
+void dataset_split(
+    struct Dataset *full_set,
+    struct Dataset *train_set, struct Dataset *validation_set,
+    struct Dataset *test_set)
+{
+    dataset_random_shuffle(full_set);
+
+    size_t data_idx = 0;
+    for (size_t i = 0; i < train_set->nb_examples; i++, data_idx++)
+        train_set->examples[i] = full_set->examples[data_idx];
+    for (size_t i = 0; i < validation_set->nb_examples; i++, data_idx++)
+        validation_set->examples[i] = full_set->examples[data_idx];
+    for (size_t i = 0; i < test_set->nb_examples; i++, data_idx++)
+        test_set->examples[i] = full_set->examples[data_idx];
+}

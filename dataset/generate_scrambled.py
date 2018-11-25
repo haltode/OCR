@@ -31,4 +31,3 @@ with open('scrambled.txt', 'w') as txt, open('scrambled.tex', 'w') as tex:
 
 print("charset size:", len(charset))
 print("total chars generated:", repeat_char * len(charset))
-print(repeat_char, "times per char")

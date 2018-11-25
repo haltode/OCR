@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O2 \
+CFLAGS = -Wall -Wextra -Werror -std=c99 -pedantic -O3 \
 	$(shell pkg-config --cflags gtk+-3.0) \
 	$(shell pkg-config --cflags sdl2)
 LDFLAGS =

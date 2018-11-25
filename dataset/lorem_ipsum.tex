@@ -1,0 +1,23 @@
+\documentclass[11pt]{article}
+\usepackage[left=1cm, right=3cm, top=1cm, bottom=1cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+% Paragraph spacing
+\setlength{\parskip}{1em}
+
+% Courier font
+\usepackage{courier}
+
+% Remove page numbering
+\pagenumbering{gobble}
+
+% Prevent hyphenation
+\hyphenpenalty=1000000
+\exhyphenpenalty=1000000
+
+\begin{document}
+    \texttt{
+        \input{lorem_ipsum.txt}
+    }
+\end{document}

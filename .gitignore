@@ -2,4 +2,4 @@
 *.o
 ocr
 output/
-dataset/train_set/
+dataset/courier/

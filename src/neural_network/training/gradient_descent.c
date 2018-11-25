@@ -93,6 +93,11 @@ void gradient_descent(
         if (verbose)
         {
             printf("done epoch %zu\n", epoch);
+            printf("train set results:\n"
+                   "accuracy: %.2f%%\n"
+                   "cost: %.2f\n",
+                network_evaluate_accuracy(network, train_set),
+                network_evaluate_cost(network, params, train_set));
             printf("validation set results:\n"
                    "accuracy: %.2f%%\n"
                    "cost: %.2f\n\n",

@@ -1,5 +1,5 @@
 #include "../ocr.h"
-#include "../constants.h"
+#include "../utils/constants.h"
 #include "buttons.h"
 
 void load_button(GtkButton *button, gpointer user_data)

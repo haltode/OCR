@@ -1,7 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_surface.h>
 
-#include "../constants.h"
+#include "../utils/constants.h"
 #include "../utils/image.h"
 
 static bool is_blank_column(SDL_Surface *line, int width)

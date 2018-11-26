@@ -1,4 +1,4 @@
-#include "../constants.h"
+#include "constants.h"
 #include "convert.h"
 #include "image.h"
 

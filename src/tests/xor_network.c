@@ -2,12 +2,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../neural_network/evaluate.h"
+#include "../neural_network/evaluate/evaluate.h"
 #include "../neural_network/neural_network.h"
 #include "../neural_network/training/training.h"
-#include "../utils/matrix.h"
 
-// Xor truth table with one-hot encoded result
+// Xor truth table with one-hot encoded results
 const int xor_table[4][4] = {
     {0, 0, 1, 0},
     {0, 1, 0, 1},
@@ -15,17 +14,17 @@ const int xor_table[4][4] = {
     {1, 1, 1, 0}
 };
 
-static void setup_training_data(struct Dataset *train_set, size_t idx)
+static void setup_training_data(struct Dataset *train_set, size_t ex_id)
 {
     struct Matrix *in = matrix_alloc(2, 1);
-    in->mat[0] = xor_table[idx][0];
-    in->mat[1] = xor_table[idx][1];
+    in->mat[0] = xor_table[ex_id][0];
+    in->mat[1] = xor_table[ex_id][1];
     struct Matrix *out = matrix_alloc(2, 1);
-    out->mat[0] = xor_table[idx][2];
-    out->mat[1] = xor_table[idx][3];
+    out->mat[0] = xor_table[ex_id][2];
+    out->mat[1] = xor_table[ex_id][3];
 
     struct ExampleData example = {in, out};
-    train_set->examples[idx] = example;
+    train_set->examples[ex_id] = example;
 }
 
 void test_xor_network(void)
@@ -41,15 +40,14 @@ void test_xor_network(void)
     params.regularization_rate = 0;
 
     struct Dataset *train_set = dataset_alloc(params.nb_examples);
+    struct Dataset *validation_set = train_set;
     for (size_t i = 0; i < params.nb_examples; i++)
         setup_training_data(train_set, i);
 
-    struct Dataset *validation_set = train_set;
     bool verbose = false;
     gradient_descent(network, params, train_set, validation_set, verbose);
 
-    printf("accuracy: %.2f%%\n", network_evaluate_accuracy(network, train_set));
-    printf("cost: %.2f\n", network_evaluate_cost(network, params, train_set));
+    network_evaluate(network, params, train_set, "train_set");
 
     printf("\nDetails:\n");
     for (size_t i = 0; i < params.nb_examples; i++)

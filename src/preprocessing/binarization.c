@@ -20,7 +20,7 @@ static int *get_histogram(SDL_Surface *image)
 }
 
 // Otsu's method for adaptive threshold
-static int get_threshold(SDL_Surface *image, int *histogram)
+static int get_threshold(SDL_Surface *image)
 {
     int threshold = 0;
     double current_max = 0.;
@@ -29,6 +29,7 @@ static int get_threshold(SDL_Surface *image, int *histogram)
     int weight_background = 0;
     int nb_pixels = image->h * image->w;
 
+    int *histogram = get_histogram(image);
     for (int i = 0; i < 256; i++)
         sum += i * histogram[i];
 
@@ -58,13 +59,14 @@ static int get_threshold(SDL_Surface *image, int *histogram)
         }
     }
 
+    free(histogram);
+
     return threshold;
 }
 
 void image_binarize(SDL_Surface *image)
 {
-    int *histogram = get_histogram(image);
-    int threshold = get_threshold(image, histogram);
+    int threshold = get_threshold(image);
 
     for (int h = 0; h < image->h; h++)
     {
@@ -82,6 +84,4 @@ void image_binarize(SDL_Surface *image)
             image_set_pixel(image, h, w, new_pixel);
         }
     }
-
-    free(histogram);
 }

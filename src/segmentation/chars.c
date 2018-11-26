@@ -1,6 +1,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_surface.h>
 
+#include "../constants.h"
 #include "../utils/image.h"
 
 static bool is_blank_column(SDL_Surface *line, int width)
@@ -42,7 +43,7 @@ static void extract_chars_from_line(SDL_Surface *line,
     SDL_BlitScaled(line, &char_rect, scaled_char, &scaled_rect);
 
     char output_path[128];
-    sprintf(output_path, "output/chars/char%d.bmp", *char_cnt);
+    sprintf(output_path, "%s/char%d.bmp", g_path_img_chars, *char_cnt);
     SDL_SaveBMP(scaled_char, output_path);
     (*char_cnt)++;
 

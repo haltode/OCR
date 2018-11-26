@@ -9,6 +9,7 @@ void image_grayscale(SDL_Surface *image)
             Uint8 r, g, b;
             Uint32 pixel = image_get_pixel(image, h, w);
             SDL_GetRGB(pixel, image->format, &r, &g, &b);
+            // Luminance formula
             Uint8 avg = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
             Uint32 new_pixel = SDL_MapRGB(image->format, avg, avg, avg);

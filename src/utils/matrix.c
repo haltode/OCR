@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <err.h>
 #include <stdlib.h>
 
 #include "matrix.h"
@@ -26,8 +26,8 @@ size_t matrix_size(struct Matrix *matrix)
 struct Matrix *matrix_copy(struct Matrix *matrix)
 {
     struct Matrix *copy = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
-        copy->mat[idx] = matrix->mat[idx];
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        copy->mat[i] = matrix->mat[i];
     return copy;
 }
 
@@ -44,46 +44,37 @@ void matrix_set(struct Matrix *matrix, size_t row, size_t col, float value)
 struct Matrix *matrix_add(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
-    {
-        perror("matrix: cannot add matrices (wrong dimensions).");
-        return NULL;
-    }
+        errx(1, "cannot add matrices (wrong dimensions)");
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        res->mat[idx] = a->mat[idx] + b->mat[idx];
+    for (size_t i = 0; i < matrix_size(a); i++)
+        res->mat[i] = a->mat[i] + b->mat[i];
     return res;
 }
 
 struct Matrix *matrix_sub(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
-    {
-        perror("matrix: cannot substract matrices (wrong dimensions).");
-        return NULL;
-    }
+        errx(1, "cannot substract matrices (wrong dimensions)");
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        res->mat[idx] = a->mat[idx] - b->mat[idx];
+    for (size_t i = 0; i < matrix_size(a); i++)
+        res->mat[i] = a->mat[i] - b->mat[i];
     return res;
 }
 
 struct Matrix *matrix_scalar(struct Matrix *a, float scalar)
 {
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        res->mat[idx] = a->mat[idx] * scalar;
+    for (size_t i = 0; i < matrix_size(a); i++)
+        res->mat[i] = a->mat[i] * scalar;
     return res;
 }
 
 struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_cols != b->nb_rows)
-    {
-        perror("matrix: cannot multiply matrices (wrong dimensions).");
-        return NULL;
-    }
+        errx(1, "cannot multiply matrices (wrong dimensions)");
 
     struct Matrix *res = matrix_alloc(a->nb_rows, b->nb_cols);
     for (size_t r = 0; r < res->nb_rows; r++)
@@ -101,39 +92,30 @@ struct Matrix *matrix_mul(struct Matrix *a, struct Matrix *b)
 struct Matrix *matrix_hadamard_mul(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
-    {
-        perror("matrix: cannot use hadamard product (wrong dimensions).");
-        return NULL;
-    }
+        errx(1, "cannot use hadamard product (wrong dimensions)");
 
     struct Matrix *res = matrix_alloc(a->nb_rows, a->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        res->mat[idx] = a->mat[idx] * b->mat[idx];
+    for (size_t i = 0; i < matrix_size(a); i++)
+        res->mat[i] = a->mat[i] * b->mat[i];
     return res;
 }
 
 void matrix_add_inplace(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
-    {
-        perror("matrix: cannot add matrices (wrong dimensions).");
-        return;
-    }
+        errx(1, "cannot add matrices (wrong dimensions)");
 
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        a->mat[idx] += b->mat[idx];
+    for (size_t i = 0; i < matrix_size(a); i++)
+        a->mat[i] += b->mat[i];
 }
 
 void matrix_sub_inplace(struct Matrix *a, struct Matrix *b)
 {
     if (a->nb_rows != b->nb_rows || a->nb_cols != b->nb_cols)
-    {
-        perror("matrix: cannot substract matrices (wrong dimensions).");
-        return;
-    }
+        errx(1, "cannot substract matrices (wrong dimensions)");
 
-    for (size_t idx = 0; idx < matrix_size(a); idx++)
-        a->mat[idx] -= b->mat[idx];
+    for (size_t i = 0; i < matrix_size(a); i++)
+        a->mat[i] -= b->mat[i];
 }
 
 struct Matrix *matrix_transpose(struct Matrix *matrix)
@@ -151,17 +133,17 @@ struct Matrix *matrix_transpose(struct Matrix *matrix)
 struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float))
 {
     struct Matrix *res = matrix_alloc(matrix->nb_rows, matrix->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(res); idx++)
-        res->mat[idx] = (*func)(matrix->mat[idx]);
+    for (size_t i = 0; i < matrix_size(res); i++)
+        res->mat[i] = (*func)(matrix->mat[i]);
     return res;
 }
 
 int matrix_argmax(struct Matrix *matrix)
 {
     int max_idx = 0;
-    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
-        if (matrix->mat[idx] > matrix->mat[max_idx])
-            max_idx = idx;
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        if (matrix->mat[i] > matrix->mat[max_idx])
+            max_idx = i;
     return max_idx;
 }
 
@@ -181,11 +163,18 @@ void matrix_print(struct Matrix *matrix, FILE *f)
 
 void matrix_print_inline(struct Matrix *matrix, FILE *f)
 {
-    for (size_t idx = 0; idx < matrix_size(matrix); idx++)
+    for (size_t i = 0; i < matrix_size(matrix); i++)
     {
-        fprintf(f, "%f", matrix->mat[idx]);
-        if (idx + 1 < matrix_size(matrix))
+        fprintf(f, "%f", matrix->mat[i]);
+        if (i + 1 < matrix_size(matrix))
             fprintf(f, " ");
     }
     fprintf(f, "\n");
+}
+
+void matrix_read_inline(struct Matrix *matrix, FILE *f)
+{
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        fscanf(f, "%f", &matrix->mat[i]);
+    fscanf(f, "\n");
 }

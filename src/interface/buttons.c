@@ -1,5 +1,5 @@
-#include "../preprocessing/preprocessing.h"
-#include "../segmentation/segmentation.h"
+#include "../ocr.h"
+#include "../constants.h"
 #include "buttons.h"
 
 void load_button(GtkButton *button, gpointer user_data)
@@ -30,8 +30,7 @@ void load_button(GtkButton *button, gpointer user_data)
 
         gtk_image_set_from_file(GTK_IMAGE(image), filename);
 
-        preprocessing(filename);
-        segmentation();
+        ocr_run(filename);
 
         g_free(filename);
     }
@@ -44,7 +43,7 @@ void grayscale_button(GtkButton *button, gpointer user_data)
     (void)(button);
 
     GtkWidget *image = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image), g_grayscale_img_path);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_grayscale);
 }
 
 void binarize_button(GtkButton *button, gpointer user_data)
@@ -52,7 +51,7 @@ void binarize_button(GtkButton *button, gpointer user_data)
     (void)(button);
 
     GtkWidget *image = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image), g_binarize_img_path);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_binarize);
 }
 
 void segmentation_button(GtkButton *button, gpointer user_data)
@@ -60,5 +59,5 @@ void segmentation_button(GtkButton *button, gpointer user_data)
     (void)(button);
 
     GtkWidget *image = GTK_WIDGET(user_data);
-    gtk_image_set_from_file(GTK_IMAGE(image), g_segmentation_img_path);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_segmentation);
 }

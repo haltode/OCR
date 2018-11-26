@@ -4,7 +4,7 @@
 
 #include "../utils/random.h"
 
-double mean(double* values, size_t n)
+double mean(double *values, size_t n)
 {
     double s = 0;
     for (size_t i = 0; i < n; i++)
@@ -12,7 +12,7 @@ double mean(double* values, size_t n)
     return s / n;
 }
 
-double stddev(double* values, size_t n)
+double stddev(double *values, size_t n)
 {
     double average = mean(values, n);
     double s = 0;
@@ -23,14 +23,14 @@ double stddev(double* values, size_t n)
 
 double *generate_values(size_t n)
 {
-    double* values = malloc(n * sizeof(double));
+    double *values = malloc(n * sizeof(double));
     for (size_t i = 0; i < n; i++)
         values[i] = normal_distribution(0, 1);
     return values;
 }
 
 // https://rosettacode.org/wiki/Statistics/Normal_distribution#C
-void print_histogram(double* values, size_t n)
+void print_histogram(double *values, size_t n)
 {
     const double width = 50;
     const double low = -3.05;

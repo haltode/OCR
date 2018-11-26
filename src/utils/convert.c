@@ -1,3 +1,4 @@
+#include "../constants.h"
 #include "convert.h"
 #include "image.h"
 
@@ -15,23 +16,17 @@ struct Matrix *convert_image_to_matrix(SDL_Surface *image)
     return matrix;
 }
 
-const size_t g_charset_size = 76;
-const char *g_charset =
-    "abcdefghijklmnopqrstuvwxyz"
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "0123456789"
-    ".,!?:;/+-=\"\'()";
-
 struct Matrix *convert_char_to_matrix(char c)
 {
     struct Matrix *matrix = matrix_alloc(g_charset_size, 1);
-    for (size_t pos = 0; g_charset[pos] != '\0'; pos++)
-    {
+    for (size_t pos = 0; pos < g_charset_size; pos++)
         if (g_charset[pos] == c)
-        {
             matrix_set(matrix, pos, 0, 1.);
-            break;
-        }
-    }
     return matrix;
+}
+
+char convert_matrix_to_char(struct Matrix *char_matrix)
+{
+    int pos = matrix_argmax(char_matrix);
+    return g_charset[pos];
 }

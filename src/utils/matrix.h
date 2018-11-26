@@ -34,5 +34,6 @@ int matrix_argmax(struct Matrix *matrix);
 
 void matrix_print(struct Matrix *matrix, FILE *f);
 void matrix_print_inline(struct Matrix *matrix, FILE *f);
+void matrix_read_inline(struct Matrix *matrix, FILE *f);
 
 #endif

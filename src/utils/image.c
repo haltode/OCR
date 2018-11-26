@@ -1,5 +1,26 @@
+#include <err.h>
+
+#include <SDL2/SDL_image.h>
+
 #include "image.h"
 
+SDL_Surface *image_load(const char *path)
+{
+    SDL_Surface *image = IMG_Load(path);
+    if (image == NULL)
+        errx(3, "cannot load %s: %s", path, IMG_GetError());
+    return image;
+}
+
+bool is_white_pixel(SDL_Surface *image, int h, int w)
+{
+    Uint8 r, g, b;
+    Uint32 pixel = image_get_pixel(image, h, w);
+    SDL_GetRGB(pixel, image->format, &r, &g, &b);
+    return r == 255 && g == 255 && b == 255;
+}
+
+// http://sdl.beuc.net/sdl.wiki/Pixel_Access
 static Uint8* image_get_pixel_ref(SDL_Surface *image, int h, int w)
 {
     int bpp = image->format->BytesPerPixel;
@@ -73,12 +94,4 @@ void image_set_pixel(SDL_Surface *image, int h, int w, Uint32 pixel)
     default:
         break;
     }
-}
-
-bool is_white_pixel(SDL_Surface *image, int h, int w)
-{
-    Uint8 r, g, b;
-    Uint32 pixel = image_get_pixel(image, h, w);
-    SDL_GetRGB(pixel, image->format, &r, &g, &b);
-    return r == 255 && g == 255 && b == 255;
 }

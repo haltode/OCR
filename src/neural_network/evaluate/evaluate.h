@@ -3,14 +3,15 @@
 
 #include <stdbool.h>
 
-#include "neural_network.h"
-#include "training/training.h"
+#include "../neural_network.h"
+#include "../training/training.h"
 
 struct Matrix *network_run(
     struct Network *network, struct Matrix *network_input);
-bool is_network_correct(
-    struct Network *network,
-    struct Matrix *network_input, struct Matrix *expected_output);
+
+void network_evaluate(
+    struct Network *network, struct TrainingParams params,
+    struct Dataset *dataset, const char *dataset_name);
 
 double network_evaluate_accuracy(
     struct Network *network, struct Dataset *dataset);

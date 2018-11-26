@@ -1,7 +1,7 @@
 #include "../utils/math.h"
 #include "propagation.h"
 
-void layer_forward(struct Layer *previous, struct Layer *current)
+static void layer_forward(struct Layer *previous, struct Layer *current)
 {
     matrix_free(current->in);
     matrix_free(current->out);
@@ -34,7 +34,7 @@ void network_compute_error(struct Network *network, struct Matrix *desired_out)
     output_layer->delta = matrix_sub(output_layer->out, desired_out);
 }
 
-void layer_backward(struct Layer *previous, struct Layer *current)
+static void layer_backward(struct Layer *previous, struct Layer *current)
 {
     matrix_free(previous->delta);
 

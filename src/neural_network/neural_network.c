@@ -1,3 +1,4 @@
+#include <err.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,12 +30,12 @@ static void layer_free(struct Layer *layer)
 static void layer_random_init(struct Layer *layer)
 {
     double sqrt_n = sqrt(layer->weight->nb_cols);
-    for (size_t idx = 0; idx < matrix_size(layer->weight); idx++)
+    for (size_t i = 0; i < matrix_size(layer->weight); i++)
         // Truncated normal distribution
-        layer->weight->mat[idx] = normal_distribution(0., 1.) / sqrt_n;
+        layer->weight->mat[i] = normal_distribution(0., 1.) / sqrt_n;
 
-    for (size_t idx = 0; idx < matrix_size(layer->bias); idx++)
-        layer->bias->mat[idx] = normal_distribution(0., 1.);
+    for (size_t i = 0; i < matrix_size(layer->bias); i++)
+        layer->bias->mat[i] = normal_distribution(0., 1.);
 }
 
 struct Network *network_alloc(size_t nb_layers, size_t *layers_size)
@@ -66,10 +67,7 @@ void network_save(struct Network *network, const char *filename)
 {
     FILE *f = fopen(filename, "w");
     if (f == NULL)
-    {
-        perror("network: cannot save network to output file.");
-        return;
-    }
+        errx(1, "cannot save network to %s", filename);
 
     fprintf(f, "%zu\n", network->nb_layers);
     for (size_t i = 0; i < network->nb_layers; i++)
@@ -94,10 +92,7 @@ struct Network *network_load(const char *filename)
 {
     FILE *f = fopen(filename, "r");
     if (f == NULL)
-    {
-        perror("network: cannot load network from input file.");
-        return NULL;
-    }
+        errx(1, "cannot load network from %s", filename);
 
     size_t nb_layers = 0;
     fscanf(f, "%zu\n", &nb_layers);
@@ -110,14 +105,8 @@ struct Network *network_load(const char *filename)
     for (size_t i = 0; i < nb_layers; i++)
     {
         struct Layer *layer = &network->layers[i];
-
-        for (size_t idx = 0; idx < matrix_size(layer->weight); idx++)
-            fscanf(f, "%f", &layer->weight->mat[idx]);
-        fscanf(f, "\n");
-
-        for (size_t idx = 0; idx < matrix_size(layer->bias); idx++)
-            fscanf(f, "%f", &layer->bias->mat[idx]);
-        fscanf(f, "\n");
+        matrix_read_inline(layer->weight, f);
+        matrix_read_inline(layer->bias, f);
     }
 
     free(layers_size);

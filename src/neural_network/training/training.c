@@ -1,7 +1,7 @@
 #include <stdio.h>
 
+#include "../evaluate/evaluate.h"
 #include "../propagation.h"
-#include "../evaluate.h"
 #include "training.h"
 
 static void network_update_neurons(
@@ -43,8 +43,7 @@ static struct Dataset *get_mini_batch(
     for (size_t i = 0; i < batch_size; i++)
     {
         size_t j = batch_id * batch_size + i;
-        batch->examples[i].in = matrix_copy(train_set->examples[j].in);
-        batch->examples[i].out = matrix_copy(train_set->examples[j].out);
+        example_data_copy(&batch->examples[i], &train_set->examples[j]);
     }
     return batch;
 }
@@ -93,16 +92,9 @@ void gradient_descent(
         if (verbose)
         {
             printf("done epoch %zu\n", epoch);
-            printf("train set results:\n"
-                   "accuracy: %.2f%%\n"
-                   "cost: %.2f\n",
-                network_evaluate_accuracy(network, train_set),
-                network_evaluate_cost(network, params, train_set));
-            printf("validation set results:\n"
-                   "accuracy: %.2f%%\n"
-                   "cost: %.2f\n\n",
-                network_evaluate_accuracy(network, validation_set),
-                network_evaluate_cost(network, params, validation_set));
+            network_evaluate(network, params, train_set, "train_set");
+            network_evaluate(network, params, validation_set, "validation_set");
+            printf("\n");
         }
     }
 }

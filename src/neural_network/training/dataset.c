@@ -1,3 +1,4 @@
+#include <err.h>
 #include <stdlib.h>
 
 #include "dataset.h"
@@ -21,6 +22,12 @@ void dataset_free(struct Dataset *dataset)
     free(dataset);
 }
 
+void example_data_copy(struct ExampleData *dst, struct ExampleData *src)
+{
+    dst->in = matrix_copy(src->in);
+    dst->out = matrix_copy(src->out);
+}
+
 // https://stackoverflow.com/a/6127606
 void dataset_random_shuffle(struct Dataset *dataset)
 {
@@ -42,13 +49,22 @@ void dataset_split(
     struct Dataset *train_set, struct Dataset *validation_set,
     struct Dataset *test_set)
 {
+    size_t total_examples = train_set->nb_examples +
+                            validation_set->nb_examples +
+                            test_set->nb_examples;
+    if (total_examples > full_set->nb_examples)
+        errx(1, "cannot split more dataset data than available");
+
     dataset_random_shuffle(full_set);
 
     size_t data_idx = 0;
-    for (size_t i = 0; i < train_set->nb_examples; i++, data_idx++)
-        train_set->examples[i] = full_set->examples[data_idx];
-    for (size_t i = 0; i < validation_set->nb_examples; i++, data_idx++)
-        validation_set->examples[i] = full_set->examples[data_idx];
-    for (size_t i = 0; i < test_set->nb_examples; i++, data_idx++)
-        test_set->examples[i] = full_set->examples[data_idx];
+    for (size_t i = 0; i < train_set->nb_examples; i++)
+        example_data_copy(
+            &train_set->examples[i], &full_set->examples[data_idx++]);
+    for (size_t i = 0; i < validation_set->nb_examples; i++)
+        example_data_copy(
+            &validation_set->examples[i], &full_set->examples[data_idx++]);
+    for (size_t i = 0; i < test_set->nb_examples; i++)
+        example_data_copy(
+            &test_set->examples[i], &full_set->examples[data_idx++]);
 }

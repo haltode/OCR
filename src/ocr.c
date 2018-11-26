@@ -10,8 +10,7 @@
 
 #include "interface/interface.h"
 #include "ocr.h"
-#include "tests/random.h"
-#include "tests/xor_network.h"
+#include "tests/tests.h"
 
 static void print_help(void)
 {

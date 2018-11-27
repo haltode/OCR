@@ -22,9 +22,15 @@ void ocr_run(const char *input_image)
     char filename[128];
     for (size_t line_id = 0; line_id < page_analysis->nb_lines; line_id++)
     {
+        if (has_newline_before_line(page_analysis, line_id))
+            fprintf(f, "\n");
+
         struct LineAnalysis *line = &page_analysis->lines[line_id];
         for (size_t char_id = 0; char_id < line->nb_chars; char_id++)
         {
+            if (has_space_before_char(line, char_id))
+                fprintf(f, " ");
+
             sprintf(filename,
                 "%s/line_%zu_char_%zu.bmp", g_path_img_chars, line_id, char_id);
             SDL_Surface *char_img = image_load(filename);
@@ -38,6 +44,8 @@ void ocr_run(const char *input_image)
             matrix_free(network_input);
             SDL_FreeSurface(char_img);
         }
+
+        fprintf(f, " ");
     }
 
     fclose(f);

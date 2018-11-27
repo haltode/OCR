@@ -1,6 +1,7 @@
 #ifndef SEGMENTATION_H
 #define SEGMENTATION_H
 
+#include <stdbool.h>
 #include <stddef.h>
 
 #include <SDL2/SDL.h>
@@ -29,9 +30,13 @@ struct PageAnalysis
 };
 
 struct PageAnalysis *segmentation(void);
+
 void detect_lines(
     SDL_Surface *text, struct PageAnalysis *page_analysis);
 void detect_chars(
     SDL_Surface *line, struct LineAnalysis *line_analysis, size_t line_id);
+
+bool has_space_before_char(struct LineAnalysis *line, size_t char_id);
+bool has_newline_before_line(struct PageAnalysis *page, size_t line_id);
 
 #endif

@@ -8,6 +8,8 @@ extern const char *g_path_img_binarize;
 extern const char *g_path_img_segmentation;
 extern const char *g_path_img_chars;
 
+extern const char *g_path_ocr_output;
+
 extern const char *g_path_dataset_scrambled;
 
 extern const size_t g_charset_size;

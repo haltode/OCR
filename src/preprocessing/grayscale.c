@@ -1,4 +1,4 @@
-#include "../utils/image.h"
+#include "../utils/sdl.h"
 
 void image_grayscale(SDL_Surface *image)
 {

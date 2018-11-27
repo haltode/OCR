@@ -5,9 +5,11 @@
 
 #include <SDL2/SDL.h>
 
-SDL_Surface *image_load(const char *path);
 bool is_white_pixel(SDL_Surface *image, int h, int w);
-Uint32 image_get_pixel(SDL_Surface *image, int h, int w);
-void image_set_pixel(SDL_Surface *image, int h, int w, Uint32 pixel);
+bool is_blank_line(SDL_Surface *text, int height);
+bool is_blank_column(SDL_Surface *line, int width);
+
+void draw_red_line(SDL_Surface *text, int height);
+void draw_red_column(SDL_Surface *line, int width);
 
 #endif

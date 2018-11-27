@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "../utils/image.h"
+#include "../utils/sdl.h"
 
 static int *get_histogram(SDL_Surface *image)
 {

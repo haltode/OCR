@@ -3,15 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include <SDL2/SDL.h>
-
 #include "neural_network/evaluate/evaluate.h"
 #include "neural_network/training/training.h"
 #include "preprocessing/preprocessing.h"
 #include "segmentation/segmentation.h"
 #include "utils/constants.h"
 #include "utils/convert.h"
-#include "utils/image.h"
+#include "utils/sdl.h"
 
 #define TOTAL_PAGES 32
 #define NB_CHARS_PER_PAGE 5000
@@ -30,45 +28,55 @@ static void add_font_to_dataset(
 
     char c;
     char filename[128];
-    for (size_t page = 1; page <= TOTAL_PAGES; page++)
+    for (size_t page_id = 1; page_id <= TOTAL_PAGES; page_id++)
     {
-        sprintf(filename, "dataset/%s/page-%02zu.png", fontname, page);
+        sprintf(filename, "dataset/%s/page-%02zu.png", fontname, page_id);
 
         preprocessing(filename);
-        size_t nb_chars = segmentation();
+        struct PageAnalysis *page_analysis = segmentation();
+
+        size_t nb_chars = 0;
+        for (size_t line_id = 0; line_id < page_analysis->nb_lines; line_id++)
+        {
+            struct LineAnalysis *line = &page_analysis->lines[line_id];
+            nb_chars += line->nb_chars;
+
+            for (size_t char_id = 0; char_id < line->nb_chars; char_id++)
+            {
+                while ((c = fgetc(f)) != EOF)
+                    if (isgraph(c))
+                        break;
+                if (c == EOF)
+                    errx(1, "reached end of file before end of images");
+
+                sprintf(filename, "%s/line_%zu_char_%zu.bmp",
+                    g_path_img_chars, line_id, char_id);
+                SDL_Surface *char_img = image_load(filename);
+
+                struct Matrix *in = convert_image_to_matrix(char_img);
+                struct Matrix *out = convert_char_to_matrix(c);
+
+                struct ExampleData example = {in, out};
+                size_t ex_id = char_cnt + font_id * TOTAL_CHARS;
+                full_set->examples[ex_id] = example;
+                char_cnt++;
+
+                SDL_FreeSurface(char_img);
+            }
+        }
+
         if (nb_chars != NB_CHARS_PER_PAGE)
             errx(1, "on page %zu: expected %d chars, found %zu.",
-                     page, NB_CHARS_PER_PAGE, nb_chars);
+                     page_id, NB_CHARS_PER_PAGE, nb_chars);
 
-        for (size_t char_id = 0; char_id < nb_chars; char_id++)
-        {
-            while ((c = fgetc(f)) != EOF)
-                if (isgraph(c))
-                    break;
-            if (c == EOF)
-                errx(1, "reached end of file before end of images");
-
-            sprintf(filename, "%s/char%zu.bmp", g_path_img_chars, char_id);
-            SDL_Surface *char_img = image_load(filename);
-
-            struct Matrix *in = convert_image_to_matrix(char_img);
-            struct Matrix *out = convert_char_to_matrix(c);
-
-            struct ExampleData example = {in, out};
-            size_t ex_id = char_cnt + font_id * TOTAL_CHARS;
-            full_set->examples[ex_id] = example;
-            char_cnt++;
-
-            SDL_FreeSurface(char_img);
-        }
+        free(page_analysis);
     }
 
     while ((c = fgetc(f)) != EOF)
         if (isgraph(c))
-        {
-            warnx("reached end of images before end of file");
             break;
-        }
+    if (c != EOF)
+        warnx("reached end of images before end of file");
 
     fclose(f);
     printf("characters read: %zu / %d\n", char_cnt, TOTAL_CHARS);

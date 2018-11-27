@@ -1,5 +1,5 @@
 #include "../utils/constants.h"
-#include "../utils/image.h"
+#include "../utils/sdl.h"
 #include "preprocessing.h"
 
 void preprocessing(const char *image_path)

@@ -76,9 +76,10 @@ static void add_font_to_dataset(
 
 void ocr_train(void)
 {
-    struct Dataset *full_set = dataset_alloc(2 * TOTAL_CHARS);
+    struct Dataset *full_set = dataset_alloc(3 * TOTAL_CHARS);
     add_font_to_dataset(full_set, 0, "courier");
     add_font_to_dataset(full_set, 1, "dejavu_sans");
+    add_font_to_dataset(full_set, 2, "droid_sans_mono");
 
     // train: 60%, validation: 20%, test: 20%
     struct Dataset *train_set = dataset_alloc(0.6 * full_set->nb_examples);

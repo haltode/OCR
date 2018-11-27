@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fonts=( "courier" "dejavu_sans" )
+fonts=( "courier" "dejavu_sans" "droid_sans_mono" )
 
 python3 generate_scrambled.py
 echo

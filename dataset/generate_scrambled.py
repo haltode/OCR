@@ -6,7 +6,7 @@ charset = ("abcdefghijklmnopqrstuvwxyz"
            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
            "0123456789"
            ".,")
-repeat_char = 2500
+repeat_char = 1750
 
 out = []
 for c in charset:
@@ -20,14 +20,18 @@ cnt = 0
 with open('scrambled.txt', 'w') as txt, open('scrambled.tex', 'w') as tex:
     for c in out:
         txt.write(c)
-        tex.write(c)
+        # Special characters to escape
+        if c == ',':
+            tex.write('{' + c + '}')
+        else:
+            tex.write(c)
         cnt += 1
-        # Indent (80 chars / line)
-        if cnt % 80 == 0:
+        # Indent
+        if cnt % 65 == 0:
             txt.write('\n')
             tex.write('\\\\\n')
-        # Page break (5000 chars / page)
-        if cnt % 5000 == 0:
+        # Page break
+        if cnt % 3500 == 0:
             cnt = 0
             txt.write('\n\n')
             tex.write('\n\\newpage\n')

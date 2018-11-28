@@ -12,7 +12,7 @@
 #include "utils/sdl.h"
 
 #define TOTAL_PAGES 32
-#define NB_CHARS_PER_PAGE 5000
+#define NB_CHARS_PER_PAGE 3500
 #define TOTAL_CHARS (TOTAL_PAGES * NB_CHARS_PER_PAGE)
 
 static void add_font_to_dataset(
@@ -85,9 +85,9 @@ static void add_font_to_dataset(
 void ocr_train(void)
 {
     struct Dataset *full_set = dataset_alloc(3 * TOTAL_CHARS);
-    add_font_to_dataset(full_set, 0, "courier");
-    add_font_to_dataset(full_set, 1, "dejavu_sans");
-    add_font_to_dataset(full_set, 2, "droid_sans_mono");
+    add_font_to_dataset(full_set, 0, "liberation_sans");
+    add_font_to_dataset(full_set, 1, "liberation_serif");
+    add_font_to_dataset(full_set, 2, "liberation_mono");
 
     // train: 60%, validation: 20%, test: 20%
     struct Dataset *train_set = dataset_alloc(0.6 * full_set->nb_examples);

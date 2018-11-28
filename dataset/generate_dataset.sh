@@ -1,6 +1,6 @@
 #!/bin/bash
 
-fonts=( "courier" "dejavu_sans" "droid_sans_mono" )
+fonts=( "liberation_sans" "liberation_serif" "liberation_mono" )
 
 python3 generate_scrambled.py
 echo
@@ -10,6 +10,6 @@ do
     mkdir -p $font
     echo "generating '$font' font dataset..."
 
-    pdflatex $font.tex > /dev/null
+    xelatex $font.tex > /dev/null
     pdftoppm $font.pdf $font/page -png -rx 300 -ry 300
 done

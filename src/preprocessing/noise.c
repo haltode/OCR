@@ -6,7 +6,7 @@ const int delta[8][2] =
     {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
 
 // Block-matching noise reduction
-void image_noise_reduction(SDL_Surface *image)
+SDL_Surface *image_noise_reduction(SDL_Surface *image)
 {
     SDL_Surface *output = image_new(image->h, image->w);
 
@@ -32,6 +32,5 @@ void image_noise_reduction(SDL_Surface *image)
         }
     }
 
-    image_copy(output, image);
-    SDL_FreeSurface(output);
+    return output;
 }

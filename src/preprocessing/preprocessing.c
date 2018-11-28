@@ -12,11 +12,13 @@ void preprocessing(const char *image_path)
     image_binarize(image);
     SDL_SaveBMP(image, g_path_img_binarize);
 
-    image_deskew(image);
-    SDL_SaveBMP(image, g_path_img_deskew);
+    SDL_Surface *straight_image = image_deskew(image);
+    SDL_SaveBMP(straight_image, g_path_img_deskew);
 
-    image_noise_reduction(image);
-    SDL_SaveBMP(image, g_path_img_noise_reduc);
+    SDL_Surface *final_image = image_noise_reduction(straight_image);
+    SDL_SaveBMP(final_image, g_path_img_noise_reduc);
 
     SDL_FreeSurface(image);
+    SDL_FreeSurface(straight_image);
+    SDL_FreeSurface(final_image);
 }

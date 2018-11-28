@@ -2,7 +2,6 @@
 
 #include "../utils/image.h"
 #include "../utils/math.h"
-#include "../utils/sdl.h"
 #include "preprocessing.h"
 
 static int compute_raycast_sum(SDL_Surface *image, int h, double angle)
@@ -60,16 +59,11 @@ static double find_skew_angle(
     return skew_angle;
 }
 
-void image_deskew(SDL_Surface *image)
+SDL_Surface *image_deskew(SDL_Surface *image)
 {
     double skew_angle = find_skew_angle(image, -15., +15., 1.);
     skew_angle = find_skew_angle(image, skew_angle - 3, skew_angle + 3, 0.1);
 
     SDL_Surface *output = image_rotate(image, skew_angle);
-
-    SDL_FreeSurface(image);
-    image = image_new(output->h, output->w);
-    image_copy(output, image);
-
-    SDL_FreeSurface(output);
+    return output;
 }

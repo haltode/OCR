@@ -59,6 +59,13 @@ void deskew_button(GtkButton *button, gpointer user_data)
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_deskew);
 }
 
+void noise_button(GtkButton *button, gpointer user_data)
+{
+    (void)(button);
+    GtkWidget *image = GTK_WIDGET(user_data);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_noise_reduc);
+}
+
 void segmentation_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);

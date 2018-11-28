@@ -11,6 +11,9 @@ function and L2 regularization.
 
 - [Grayscale](https://en.wikipedia.org/wiki/Grayscale)
 - [Otsu's method](https://en.wikipedia.org/wiki/Otsu%27s_method)
+- Deskew algorithm
+    - [Measuring the Skew of Document Images](http://leptonica.org/skew-measurement.html)
+    - [Skew Detection and Correction](https://people.eecs.berkeley.edu/~fateman/kathey/skew.html)
 
 ## Interface & image manipulation
 

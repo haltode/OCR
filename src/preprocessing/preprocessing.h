@@ -9,5 +9,6 @@ void image_grayscale(SDL_Surface *image);
 void image_binarize(SDL_Surface *image);
 
 SDL_Surface *image_rotate(SDL_Surface *image, double angle);
+SDL_Surface *image_deskew(SDL_Surface *image);
 
 #endif

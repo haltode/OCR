@@ -1,14 +1,13 @@
-#include <math.h>
-
 #include <SDL2/SDL.h>
 
+#include "../utils/math.h"
 #include "../utils/sdl.h"
 
 SDL_Surface *image_rotate(SDL_Surface *image, double angle)
 {
-    double radians = -angle / (180. / 3.14);
-    double cos_ang = cos(radians);
-    double sin_ang = sin(radians);
+    angle = to_radians(-angle);
+    double cos_ang = cos(angle);
+    double sin_ang = sin(angle);
 
     int new_height = abs(-image->w * sin_ang) + abs(image->h * cos_ang);
     int new_width = abs(image->w * cos_ang) + abs(image->h * sin_ang);

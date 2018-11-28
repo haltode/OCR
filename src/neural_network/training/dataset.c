@@ -22,6 +22,45 @@ void dataset_free(struct Dataset *dataset)
     free(dataset);
 }
 
+void dataset_save(struct Dataset *dataset, const char *filename)
+{
+    FILE *f = fopen(filename, "w");
+    if (f == NULL)
+        errx(1, "cannot save dataset to %s", filename);
+
+    fprintf(f, "%zu\n", dataset->nb_examples);
+    for (size_t i = 0; i < dataset->nb_examples; i++)
+    {
+        struct ExampleData *example = &dataset->examples[i];
+        matrix_save(f, example->in);
+        matrix_save(f, example->out);
+    }
+
+    fclose(f);
+}
+
+struct Dataset *dataset_load(const char *filename)
+{
+    FILE *f = fopen(filename, "r");
+    if (f == NULL)
+        errx(1, "cannot load dataset from %s", filename);
+
+    size_t nb_examples;
+    fscanf(f, "%zu\n", &nb_examples);
+
+    struct Dataset *dataset = dataset_alloc(nb_examples);
+    for (size_t i = 0; i < nb_examples; i++)
+    {
+        struct ExampleData *example = &dataset->examples[i];
+        example->in = matrix_load(f);
+        example->out = matrix_load(f);
+    }
+
+    fclose(f);
+
+    return dataset;
+}
+
 void example_data_copy(struct ExampleData *dst, struct ExampleData *src)
 {
     dst->in = matrix_copy(src->in);

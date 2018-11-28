@@ -19,6 +19,9 @@ struct Dataset
 
 struct Dataset *dataset_alloc(size_t nb_examples);
 void dataset_free(struct Dataset *dataset);
+void dataset_save(struct Dataset *dataset, const char *filename);
+struct Dataset *dataset_load(const char *filename);
+
 void example_data_copy(struct ExampleData *dst, struct ExampleData *src);
 
 void dataset_random_shuffle(struct Dataset *dataset);

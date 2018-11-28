@@ -84,10 +84,13 @@ static void add_font_to_dataset(
 
 void ocr_train(void)
 {
+    // If the dataset has already been generated and saved, you can simply do:
+    // struct Dataset *full_set = dataset_load("dataset/ocr_dataset");
     struct Dataset *full_set = dataset_alloc(3 * TOTAL_CHARS);
     add_font_to_dataset(full_set, 0, "liberation_sans");
     add_font_to_dataset(full_set, 1, "liberation_serif");
     add_font_to_dataset(full_set, 2, "liberation_mono");
+    dataset_save(full_set, "dataset/ocr_dataset");
 
     // train: 60%, validation: 20%, test: 20%
     struct Dataset *train_set = dataset_alloc(0.6 * full_set->nb_examples);

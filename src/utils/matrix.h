@@ -13,6 +13,10 @@ struct Matrix
 
 struct Matrix *matrix_alloc(size_t nb_rows, size_t nb_cols);
 void matrix_free(struct Matrix *matrix);
+void matrix_save(FILE *f, struct Matrix *matrix);
+struct Matrix *matrix_load(FILE *f);
+void matrix_load_inplace(FILE *f, struct Matrix *matrix);
+
 size_t matrix_size(struct Matrix *matrix);
 struct Matrix *matrix_copy(struct Matrix *matrix);
 
@@ -32,8 +36,6 @@ struct Matrix *matrix_transpose(struct Matrix *matrix);
 struct Matrix *matrix_apply_func(struct Matrix *matrix, float (*func)(float));
 int matrix_argmax(struct Matrix *matrix);
 
-void matrix_print(struct Matrix *matrix, FILE *f);
-void matrix_print_inline(struct Matrix *matrix, FILE *f);
-void matrix_read_inline(struct Matrix *matrix, FILE *f);
+void matrix_print(struct Matrix *matrix);
 
 #endif

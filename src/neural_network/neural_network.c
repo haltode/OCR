@@ -81,8 +81,8 @@ void network_save(struct Network *network, const char *filename)
     for (size_t i = 0; i < network->nb_layers; i++)
     {
         struct Layer *layer = &network->layers[i];
-        matrix_print_inline(layer->weight, f);
-        matrix_print_inline(layer->bias, f);
+        matrix_save(f, layer->weight);
+        matrix_save(f, layer->bias);
     }
 
     fclose(f);
@@ -105,8 +105,8 @@ struct Network *network_load(const char *filename)
     for (size_t i = 0; i < nb_layers; i++)
     {
         struct Layer *layer = &network->layers[i];
-        matrix_read_inline(layer->weight, f);
-        matrix_read_inline(layer->bias, f);
+        matrix_load_inplace(f, layer->weight);
+        matrix_load_inplace(f, layer->bias);
     }
 
     free(layers_size);

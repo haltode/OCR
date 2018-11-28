@@ -18,6 +18,39 @@ void matrix_free(struct Matrix *matrix)
     free(matrix);
 }
 
+void matrix_save(FILE *f, struct Matrix *matrix)
+{
+    fprintf(f, "%zu %zu\n", matrix->nb_rows, matrix->nb_cols);
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        fprintf(f, "%f ", matrix->mat[i]);
+    fprintf(f, "\n");
+}
+
+struct Matrix *matrix_load(FILE *f)
+{
+    size_t nb_rows, nb_cols;
+    fscanf(f, "%zu %zu\n", &nb_rows, &nb_cols);
+
+    struct Matrix *matrix = matrix_alloc(nb_rows, nb_cols);
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        fscanf(f, "%f ", &matrix->mat[i]);
+    fscanf(f, "\n");
+
+    return matrix;
+}
+
+void matrix_load_inplace(FILE *f, struct Matrix *matrix)
+{
+    size_t nb_rows, nb_cols;
+    fscanf(f, "%zu %zu\n", &nb_rows, &nb_cols);
+    if (nb_rows != matrix->nb_rows || nb_cols != matrix->nb_cols)
+        errx(1, "cannot load inplace (wrong dimensions)");
+
+    for (size_t i = 0; i < matrix_size(matrix); i++)
+        fscanf(f, "%f ", &matrix->mat[i]);
+    fscanf(f, "\n");
+}
+
 size_t matrix_size(struct Matrix *matrix)
 {
     return matrix->nb_rows * matrix->nb_cols;
@@ -147,34 +180,16 @@ int matrix_argmax(struct Matrix *matrix)
     return max_idx;
 }
 
-void matrix_print(struct Matrix *matrix, FILE *f)
+void matrix_print(struct Matrix *matrix)
 {
     for (size_t r = 0; r < matrix->nb_rows; r++)
     {
         for (size_t c = 0; c < matrix->nb_cols; c++)
         {
-            fprintf(f, "%f", matrix_get(matrix, r, c));
+            printf("%f", matrix_get(matrix, r, c));
             if (c + 1 < matrix->nb_cols)
-                fprintf(f, "\t");
+                printf("\t");
         }
-        fprintf(f, "\n");
+        printf("\n");
     }
-}
-
-void matrix_print_inline(struct Matrix *matrix, FILE *f)
-{
-    for (size_t i = 0; i < matrix_size(matrix); i++)
-    {
-        fprintf(f, "%f", matrix->mat[i]);
-        if (i + 1 < matrix_size(matrix))
-            fprintf(f, " ");
-    }
-    fprintf(f, "\n");
-}
-
-void matrix_read_inline(struct Matrix *matrix, FILE *f)
-{
-    for (size_t i = 0; i < matrix_size(matrix); i++)
-        fscanf(f, "%f", &matrix->mat[i]);
-    fscanf(f, "\n");
 }

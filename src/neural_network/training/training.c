@@ -95,6 +95,10 @@ void gradient_descent(
             network_evaluate(network, params, train_set, "train_set");
             network_evaluate(network, params, validation_set, "validation_set");
             printf("\n");
+
+            char filename[128];
+            sprintf(filename, "output/ocr_network_e%zu", epoch);
+            network_save(network, filename);
         }
     }
 }

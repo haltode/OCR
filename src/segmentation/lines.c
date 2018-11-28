@@ -47,14 +47,15 @@ void detect_lines(SDL_Surface *text, struct PageAnalysis *page_analysis)
         if (h > 0 && h < text->h)
         {
             line_analysis.line_start = h;
-            draw_red_line(text, h - 1);
 
             h = go_to_line_end(text, h);
             if (h < text->h)
             {
                 line_analysis.line_end = h;
                 extract_line_from_text(text, &line_analysis, line_id);
-                draw_red_line(text, h);
+
+                draw_red_line(text, line_analysis.line_start - 1);
+                draw_red_line(text, line_analysis.line_end);
 
                 page_analysis->lines[line_id] = line_analysis;
                 (page_analysis->nb_lines)++;

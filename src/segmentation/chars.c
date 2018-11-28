@@ -58,14 +58,15 @@ void detect_chars(
         if (w > 0 && w < line->w)
         {
             char_analysis.col_start = w;
-            draw_red_column(line, w - 1);
 
             w = go_to_char_end(line, w);
             if (w < line->w)
             {
                 char_analysis.col_end = w;
                 extract_char_from_line(line, line_id, char_analysis, char_id);
-                draw_red_column(line, w);
+
+                draw_red_column(line, char_analysis.col_start  - 1);
+                draw_red_column(line, char_analysis.col_end);
 
                 line_analysis->chars[char_id] = char_analysis;
                 (line_analysis->nb_chars)++;

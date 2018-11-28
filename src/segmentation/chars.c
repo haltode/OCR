@@ -2,14 +2,14 @@
 #include "../utils/image.h"
 #include "segmentation.h"
 
-static int go_to_column_start(SDL_Surface *line, int w)
+static int go_to_char_start(SDL_Surface *line, int w)
 {
     while (w < line->w && is_blank_column(line, w))
         w++;
     return w;
 }
 
-static int go_to_column_end(SDL_Surface *line, int w)
+static int go_to_char_end(SDL_Surface *line, int w)
 {
     while (w < line->w && !is_blank_column(line, w))
         w++;
@@ -54,22 +54,22 @@ void detect_chars(
         struct CharAnalysis char_analysis;
         size_t char_id = line_analysis->nb_chars;
 
-        w = go_to_column_start(line, w);
+        w = go_to_char_start(line, w);
         if (w > 0 && w < line->w)
         {
             char_analysis.col_start = w;
             draw_red_column(line, w - 1);
-        }
 
-        w = go_to_column_end(line, w);
-        if (w < line->w)
-        {
-            char_analysis.col_end = w;
-            extract_char_from_line(line, line_id, char_analysis, char_id);
-            draw_red_column(line, w);
+            w = go_to_char_end(line, w);
+            if (w < line->w)
+            {
+                char_analysis.col_end = w;
+                extract_char_from_line(line, line_id, char_analysis, char_id);
+                draw_red_column(line, w);
 
-            line_analysis->chars[char_id] = char_analysis;
-            (line_analysis->nb_chars)++;
+                line_analysis->chars[char_id] = char_analysis;
+                (line_analysis->nb_chars)++;
+            }
         }
     }
 }

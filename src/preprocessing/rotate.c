@@ -11,14 +11,7 @@ SDL_Surface *image_rotate(SDL_Surface *image, double angle)
 
     int new_height = abs(-image->w * sin_ang) + abs(image->h * cos_ang);
     int new_width = abs(image->w * cos_ang) + abs(image->h * sin_ang);
-
-    SDL_Rect output_dim;
-    output_dim.y = 0;
-    output_dim.x = 0;
-    output_dim.h = new_height;
-    output_dim.w = new_width;
-    SDL_Surface *output =
-        SDL_CreateRGBSurface(0, output_dim.w, output_dim.h, 32, 0, 0, 0, 0);
+    SDL_Surface *output = image_new(new_height, new_width);
 
     for (int h = 0; h < output->h; h++)
     {

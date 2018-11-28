@@ -14,6 +14,7 @@ function and L2 regularization.
 - Deskew algorithm
     - [Measuring the Skew of Document Images](http://leptonica.org/skew-measurement.html)
     - [Skew Detection and Correction](https://people.eecs.berkeley.edu/~fateman/kathey/skew.html)
+- [Noise reduction](https://en.wikipedia.org/wiki/Noise_reduction)
 
 ## Interface & image manipulation
 

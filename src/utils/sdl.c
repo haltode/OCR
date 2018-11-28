@@ -12,6 +12,23 @@ SDL_Surface *image_load(const char *path)
     return image;
 }
 
+SDL_Surface *image_new(const int height, const int width)
+{
+    SDL_Rect dim;
+    dim.y = 0;
+    dim.x = 0;
+    dim.h = height;
+    dim.w = width;
+    SDL_Surface *surface =
+        SDL_CreateRGBSurface(0, dim.w, dim.h, 32, 0, 0, 0, 0);
+    return surface;
+}
+
+void image_copy(SDL_Surface *src, SDL_Surface *dst)
+{
+    SDL_BlitSurface(src, NULL, dst, NULL);
+}
+
 // http://sdl.beuc.net/sdl.wiki/Pixel_Access
 static Uint8* image_get_pixel_ref(SDL_Surface *image, int h, int w)
 {

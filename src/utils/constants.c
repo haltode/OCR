@@ -2,6 +2,7 @@
 
 const char *g_path_img_grayscale = "output/image_grayscale.bmp";
 const char *g_path_img_binarize = "output/image_binarize.bmp";
+const char *g_path_img_deskew = "output/image_deskew.bmp";
 const char *g_path_img_segmentation = "output/image_segmentation.bmp";
 const char *g_path_img_chars = "output/image_chars";
 

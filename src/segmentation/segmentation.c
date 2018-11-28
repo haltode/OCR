@@ -7,7 +7,7 @@ struct PageAnalysis *segmentation(void)
 {
     struct PageAnalysis *page_analysis = malloc(sizeof(struct PageAnalysis));
 
-    SDL_Surface *image = image_load(g_path_img_binarize);
+    SDL_Surface *image = image_load(g_path_img_deskew);
     detect_lines(image, page_analysis);
 
     SDL_SaveBMP(image, g_path_img_segmentation);

@@ -41,7 +41,6 @@ void load_button(GtkButton *button, gpointer user_data)
 void grayscale_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
-
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_grayscale);
 }
@@ -49,15 +48,20 @@ void grayscale_button(GtkButton *button, gpointer user_data)
 void binarize_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
-
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_binarize);
+}
+
+void deskew_button(GtkButton *button, gpointer user_data)
+{
+    (void)(button);
+    GtkWidget *image = GTK_WIDGET(user_data);
+    gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_deskew);
 }
 
 void segmentation_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
-
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_segmentation);
 }

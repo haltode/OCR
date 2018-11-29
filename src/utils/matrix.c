@@ -20,21 +20,19 @@ void matrix_free(struct Matrix *matrix)
 
 void matrix_save(FILE *f, struct Matrix *matrix)
 {
-    fprintf(f, "%zu %zu\n", matrix->nb_rows, matrix->nb_cols);
-    for (size_t i = 0; i < matrix_size(matrix); i++)
-        fprintf(f, "%f ", matrix->mat[i]);
-    fprintf(f, "\n");
+    fwrite(&matrix->nb_rows, sizeof(size_t), 1, f);
+    fwrite(&matrix->nb_cols, sizeof(size_t), 1, f);
+    fwrite(matrix->mat, sizeof(float) * matrix_size(matrix), 1, f);
 }
 
 struct Matrix *matrix_load(FILE *f)
 {
     size_t nb_rows, nb_cols;
-    fscanf(f, "%zu %zu\n", &nb_rows, &nb_cols);
+    fread(&nb_rows, sizeof(size_t), 1, f);
+    fread(&nb_cols, sizeof(size_t), 1, f);
 
     struct Matrix *matrix = matrix_alloc(nb_rows, nb_cols);
-    for (size_t i = 0; i < matrix_size(matrix); i++)
-        fscanf(f, "%f ", &matrix->mat[i]);
-    fscanf(f, "\n");
+    fread(matrix->mat, sizeof(float) * matrix_size(matrix), 1, f);
 
     return matrix;
 }
@@ -42,13 +40,12 @@ struct Matrix *matrix_load(FILE *f)
 void matrix_load_inplace(FILE *f, struct Matrix *matrix)
 {
     size_t nb_rows, nb_cols;
-    fscanf(f, "%zu %zu\n", &nb_rows, &nb_cols);
+    fread(&nb_rows, sizeof(size_t), 1, f);
+    fread(&nb_cols, sizeof(size_t), 1, f);
     if (nb_rows != matrix->nb_rows || nb_cols != matrix->nb_cols)
         errx(1, "cannot load inplace (wrong dimensions)");
 
-    for (size_t i = 0; i < matrix_size(matrix); i++)
-        fscanf(f, "%f ", &matrix->mat[i]);
-    fscanf(f, "\n");
+    fread(matrix->mat, sizeof(float) * matrix_size(matrix), 1, f);
 }
 
 size_t matrix_size(struct Matrix *matrix)

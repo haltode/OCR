@@ -24,11 +24,11 @@ void dataset_free(struct Dataset *dataset)
 
 void dataset_save(struct Dataset *dataset, const char *filename)
 {
-    FILE *f = fopen(filename, "w");
+    FILE *f = fopen(filename, "wb");
     if (f == NULL)
         errx(1, "cannot save dataset to %s", filename);
 
-    fprintf(f, "%zu\n", dataset->nb_examples);
+    fwrite(&dataset->nb_examples, sizeof(size_t), 1, f);
     for (size_t i = 0; i < dataset->nb_examples; i++)
     {
         struct ExampleData *example = &dataset->examples[i];
@@ -41,12 +41,12 @@ void dataset_save(struct Dataset *dataset, const char *filename)
 
 struct Dataset *dataset_load(const char *filename)
 {
-    FILE *f = fopen(filename, "r");
+    FILE *f = fopen(filename, "rb");
     if (f == NULL)
         errx(1, "cannot load dataset from %s", filename);
 
     size_t nb_examples;
-    fscanf(f, "%zu\n", &nb_examples);
+    fread(&nb_examples, sizeof(size_t), 1, f);
 
     struct Dataset *dataset = dataset_alloc(nb_examples);
     for (size_t i = 0; i < nb_examples; i++)

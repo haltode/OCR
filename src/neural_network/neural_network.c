@@ -65,18 +65,13 @@ void network_free(struct Network *network)
 
 void network_save(struct Network *network, const char *filename)
 {
-    FILE *f = fopen(filename, "w");
+    FILE *f = fopen(filename, "wb");
     if (f == NULL)
         errx(1, "cannot save network to %s", filename);
 
-    fprintf(f, "%zu\n", network->nb_layers);
+    fwrite(&network->nb_layers, sizeof(size_t), 1, f);
     for (size_t i = 0; i < network->nb_layers; i++)
-    {
-        fprintf(f, "%zu", network->layers[i].nb_neurons);
-        if (i + 1 < network->nb_layers)
-            fprintf(f, " ");
-    }
-    fprintf(f, "\n");
+        fwrite(&network->layers[i].nb_neurons, sizeof(size_t), 1, f);
 
     for (size_t i = 0; i < network->nb_layers; i++)
     {
@@ -90,16 +85,14 @@ void network_save(struct Network *network, const char *filename)
 
 struct Network *network_load(const char *filename)
 {
-    FILE *f = fopen(filename, "r");
+    FILE *f = fopen(filename, "rb");
     if (f == NULL)
         errx(1, "cannot load network from %s", filename);
 
     size_t nb_layers = 0;
-    fscanf(f, "%zu\n", &nb_layers);
+    fread(&nb_layers, sizeof(size_t), 1, f);
     size_t *layers_size = malloc(sizeof(size_t) * nb_layers);
-    for (size_t i = 0; i < nb_layers; i++)
-        fscanf(f, "%zu", &layers_size[i]);
-    fscanf(f, "\n");
+    fread(layers_size, sizeof(size_t) * nb_layers, 1, f);
 
     struct Network *network = network_alloc(nb_layers, layers_size);
     for (size_t i = 0; i < nb_layers; i++)

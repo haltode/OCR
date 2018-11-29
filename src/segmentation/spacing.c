@@ -18,7 +18,7 @@ bool has_space_before_char(struct LineAnalysis *line, size_t char_id)
     double average = sum / line->nb_chars;
 
     int space = get_space_before_char(line, char_id);
-    return (space > 2 * average);
+    return (space > 1.5 * average);
 }
 
 static int get_space_before_line(struct PageAnalysis *page, size_t line_id)
@@ -39,5 +39,5 @@ bool has_newline_before_line(struct PageAnalysis *page, size_t line_id)
     double average = sum / page->nb_lines;
 
     int space = get_space_before_line(page, line_id);
-    return (space > 2 * average);
+    return (space > 1.5 * average);
 }

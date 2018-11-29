@@ -11,9 +11,8 @@ const char *g_path_ocr_output = "output/image.txt";
 
 const char *g_path_dataset_scrambled = "dataset/scrambled.txt";
 
-const size_t g_charset_size = 64;
+const size_t g_charset_size = 54;
 const char *g_charset =
     "abcdefghijklmnopqrstuvwxyz"
     "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    "0123456789"
     ".,";

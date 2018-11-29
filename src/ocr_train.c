@@ -11,7 +11,7 @@
 #include "utils/convert.h"
 #include "utils/sdl.h"
 
-#define TOTAL_PAGES 32
+#define TOTAL_PAGES 27
 #define NB_CHARS_PER_PAGE 3500
 #define TOTAL_CHARS (TOTAL_PAGES * NB_CHARS_PER_PAGE)
 

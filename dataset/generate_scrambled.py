@@ -4,7 +4,6 @@ random.seed(42)
 
 charset = ("abcdefghijklmnopqrstuvwxyz"
            "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-           "0123456789"
            ".,")
 repeat_char = 1750
 
@@ -20,11 +19,10 @@ cnt = 0
 with open('scrambled.txt', 'w') as txt, open('scrambled.tex', 'w') as tex:
     for c in out:
         txt.write(c)
-        # Special characters to escape
-        if c == ',':
-            tex.write('{' + c + '}')
-        else:
-            tex.write(c)
+        # Special characters to escape in LaTeX
+        if c in ".,":
+            c = '{' + c + '}'
+        tex.write(c)
         cnt += 1
         # Indent
         if cnt % 65 == 0:

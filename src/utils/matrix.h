@@ -1,5 +1,5 @@
-#ifndef MATRIX_H
-#define MATRIX_H
+#ifndef UTILS_MATRIX_H
+#define UTILS_MATRIX_H
 
 #include <stddef.h>
 #include <stdio.h>
@@ -13,6 +13,7 @@ struct Matrix
 
 struct Matrix *matrix_alloc(size_t nb_rows, size_t nb_cols);
 void matrix_free(struct Matrix *matrix);
+
 void matrix_save(FILE *f, struct Matrix *matrix);
 struct Matrix *matrix_load(FILE *f);
 void matrix_load_inplace(FILE *f, struct Matrix *matrix);

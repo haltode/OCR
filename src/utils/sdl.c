@@ -24,11 +24,6 @@ SDL_Surface *image_new(const int height, const int width)
     return surface;
 }
 
-void image_copy(SDL_Surface *src, SDL_Surface *dst)
-{
-    SDL_BlitSurface(src, NULL, dst, NULL);
-}
-
 // http://sdl.beuc.net/sdl.wiki/Pixel_Access
 static Uint8* image_get_pixel_ref(SDL_Surface *image, int h, int w)
 {

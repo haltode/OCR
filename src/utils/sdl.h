@@ -5,7 +5,6 @@
 
 SDL_Surface *image_load(const char *path);
 SDL_Surface *image_new(const int height, const int width);
-void image_copy(SDL_Surface *src, SDL_Surface *dst);
 
 Uint32 image_get_pixel(SDL_Surface *image, int h, int w);
 void image_set_pixel(SDL_Surface *image, int h, int w, Uint32 pixel);

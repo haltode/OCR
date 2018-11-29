@@ -1,5 +1,5 @@
-#ifndef CONVERT_H
-#define CONVERT_H
+#ifndef UTILS_CONVERT_H
+#define UTILS_CONVERT_H
 
 #include <SDL2/SDL.h>
 

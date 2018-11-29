@@ -25,7 +25,8 @@ double normal_distribution(double mean, double stddev)
 
     static double u, v, s;
 
-    do {
+    do
+    {
         u = (rand() * 2.0 / RAND_MAX) - 1.0;
         v = (rand() * 2.0 / RAND_MAX) - 1.0;
         s = u * u + v * v;

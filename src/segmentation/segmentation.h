@@ -29,7 +29,7 @@ struct PageAnalysis
     struct LineAnalysis lines[NB_LINES_MAX];
 };
 
-struct PageAnalysis *segmentation(void);
+struct PageAnalysis *segmentation(const char *input_image);
 
 void detect_lines(
     SDL_Surface *text, struct PageAnalysis *page_analysis);

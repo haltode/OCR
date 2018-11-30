@@ -8,6 +8,6 @@ void grayscale_button(GtkButton *button, gpointer user_data);
 void binarize_button(GtkButton *button, gpointer user_data);
 void deskew_button(GtkButton *button, gpointer user_data);
 void noise_button(GtkButton *button, gpointer user_data);
-void segmentation_button(GtkButton *button, gpointer user_data);
+void ocr_run_button(GtkButton *button, gpointer user_data);
 
 #endif

@@ -16,8 +16,7 @@ void ocr_run(const char *input_image)
     if (f == NULL)
         errx(1, "could not open %s", g_path_ocr_output);
 
-    preprocessing(input_image);
-    struct PageAnalysis *page_analysis = segmentation();
+    struct PageAnalysis *page_analysis = segmentation(input_image);
 
     char filename[128];
     for (size_t line_id = 0; line_id < page_analysis->nb_lines; line_id++)

@@ -120,8 +120,8 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="segmentation_button">
-                <property name="label" translatable="yes">Segmentation</property>
+              <object class="GtkButton" id="ocr_run_button">
+                <property name="label" translatable="yes">OCR run</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>

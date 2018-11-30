@@ -3,11 +3,11 @@
 #include "../utils/sdl.h"
 #include "segmentation.h"
 
-struct PageAnalysis *segmentation(void)
+struct PageAnalysis *segmentation(const char *input_image)
 {
     struct PageAnalysis *page_analysis = malloc(sizeof(struct PageAnalysis));
 
-    SDL_Surface *image = image_load(g_path_img_noise_reduc);
+    SDL_Surface *image = image_load(input_image);
     detect_lines(image, page_analysis);
 
     SDL_SaveBMP(image, g_path_img_segmentation);

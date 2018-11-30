@@ -28,8 +28,8 @@ void interface_start(void)
     button = gtk_builder_get_object(builder, "noise_button");
     g_signal_connect(button, "clicked", G_CALLBACK(noise_button), image);
 
-    button = gtk_builder_get_object(builder, "segmentation_button");
-    g_signal_connect(button, "clicked", G_CALLBACK(segmentation_button), image);
+    button = gtk_builder_get_object(builder, "ocr_run_button");
+    g_signal_connect(button, "clicked", G_CALLBACK(ocr_run_button), image);
 
     button = gtk_builder_get_object(builder, "quit_button");
     g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);

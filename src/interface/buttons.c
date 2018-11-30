@@ -1,6 +1,11 @@
+#include <string.h>
+
 #include "../ocr.h"
+#include "../preprocessing/preprocessing.h"
 #include "../utils/constants.h"
 #include "buttons.h"
+
+char current_path_img[128];
 
 void load_button(GtkButton *button, gpointer user_data)
 {
@@ -30,7 +35,7 @@ void load_button(GtkButton *button, gpointer user_data)
 
         gtk_image_set_from_file(GTK_IMAGE(image), filename);
 
-        ocr_run(filename);
+        preprocessing(filename);
 
         g_free(filename);
     }
@@ -43,6 +48,7 @@ void grayscale_button(GtkButton *button, gpointer user_data)
     (void)(button);
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_grayscale);
+    strcpy(current_path_img, g_path_img_grayscale);
 }
 
 void binarize_button(GtkButton *button, gpointer user_data)
@@ -50,6 +56,7 @@ void binarize_button(GtkButton *button, gpointer user_data)
     (void)(button);
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_binarize);
+    strcpy(current_path_img, g_path_img_binarize);
 }
 
 void deskew_button(GtkButton *button, gpointer user_data)
@@ -57,6 +64,7 @@ void deskew_button(GtkButton *button, gpointer user_data)
     (void)(button);
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_deskew);
+    strcpy(current_path_img, g_path_img_deskew);
 }
 
 void noise_button(GtkButton *button, gpointer user_data)
@@ -64,11 +72,19 @@ void noise_button(GtkButton *button, gpointer user_data)
     (void)(button);
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_noise_reduc);
+    strcpy(current_path_img, g_path_img_noise_reduc);
 }
 
-void segmentation_button(GtkButton *button, gpointer user_data)
+void ocr_run_button(GtkButton *button, gpointer user_data)
 {
     (void)(button);
+    if (strcmp(current_path_img, g_path_img_binarize) != 0 &&
+        strcmp(current_path_img, g_path_img_deskew) != 0 &&
+        strcmp(current_path_img, g_path_img_noise_reduc) != 0)
+        return;
+
+    ocr_run(current_path_img);
+
     GtkWidget *image = GTK_WIDGET(user_data);
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_segmentation);
 }

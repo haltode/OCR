@@ -33,7 +33,9 @@ static void add_font_to_dataset(
         sprintf(filename, "dataset/%s/page-%02zu.png", fontname, page_id);
 
         preprocessing(filename);
-        struct PageAnalysis *page_analysis = segmentation();
+        // Noise reduction is a bit destructive when the image does not have any
+        // noise, so we use the step right before noise reduction (ie: deskew)
+        struct PageAnalysis *page_analysis = segmentation(g_path_img_deskew);
 
         size_t nb_chars = 0;
         for (size_t line_id = 0; line_id < page_analysis->nb_lines; line_id++)

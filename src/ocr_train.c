@@ -111,8 +111,8 @@ void ocr_train(void)
     struct TrainingParams params;
     params.nb_examples = train_set->nb_examples;
     params.nb_epochs = 10;
-    params.mini_batch_size = 50;
-    params.learn_rate = 0.2;
+    params.mini_batch_size = 10;
+    params.learn_rate = 0.01;
     params.regularization_rate = 5;
 
     size_t input_size = 32 * 32;

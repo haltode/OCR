@@ -1,3 +1,5 @@
+#include <err.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "../ocr.h"
@@ -85,6 +87,28 @@ void ocr_run_button(GtkButton *button, gpointer user_data)
 
     ocr_run(current_path_img);
 
-    GtkWidget *image = GTK_WIDGET(user_data);
+    GtkWidget *image = GTK_WIDGET(((struct ocr_ui_data *) user_data)->image);
+    GtkWidget *text = GTK_WIDGET(((struct ocr_ui_data *) user_data)->text);
+
+    // 1. Update image with segmentation
     gtk_image_set_from_file(GTK_IMAGE(image), g_path_img_segmentation);
+
+    // 2. Update text buffer with OCR output
+    FILE *f = fopen(g_path_ocr_output, "r");
+    if (f == NULL)
+        errx(1, "could not open %s", g_path_ocr_output);
+
+    fseek(f, 0, SEEK_END);
+    int fsize = ftell(f);
+    fseek(f, 0, SEEK_SET);
+
+    char *fcontent = malloc(fsize);
+    fread(fcontent, 1, fsize, f);
+
+    GtkTextBuffer *buf = gtk_text_buffer_new(NULL);
+    gtk_text_buffer_set_text(buf, fcontent, fsize);
+    gtk_text_view_set_buffer(GTK_TEXT_VIEW(text), buf);
+
+    free(fcontent);
+    fclose(f);
 }

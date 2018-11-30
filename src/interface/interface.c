@@ -1,3 +1,5 @@
+#include <stdlib.h>
+
 #include <gtk/gtk.h>
 
 #include "buttons.h"
@@ -11,6 +13,7 @@ void interface_start(void)
     g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
     GtkWidget *image = GTK_WIDGET(gtk_builder_get_object(builder, "image"));
+    GtkWidget *text = GTK_WIDGET(gtk_builder_get_object(builder, "text"));
 
     GObject *button;
     button = gtk_builder_get_object(builder, "load_button");
@@ -28,8 +31,13 @@ void interface_start(void)
     button = gtk_builder_get_object(builder, "noise_button");
     g_signal_connect(button, "clicked", G_CALLBACK(noise_button), image);
 
+    struct ocr_ui_data *ocr_ui = malloc(sizeof(struct ocr_ui_data));
+    ocr_ui->image = image;
+    ocr_ui->text = text;
     button = gtk_builder_get_object(builder, "ocr_run_button");
-    g_signal_connect(button, "clicked", G_CALLBACK(ocr_run_button), image);
+    g_signal_connect_data(
+        button, "clicked", G_CALLBACK(ocr_run_button), ocr_ui,
+        (GClosureNotify)free, 0);
 
     button = gtk_builder_get_object(builder, "quit_button");
     g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);

@@ -25,7 +25,7 @@ with open('scrambled.txt', 'w') as txt, open('scrambled.tex', 'w') as tex:
         tex.write(c)
         cnt += 1
         # Indent
-        if cnt % 65 == 0:
+        if cnt % 62 == 0:
             txt.write('\n')
             tex.write('\\\\\n')
         # Page break

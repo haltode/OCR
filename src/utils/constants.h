@@ -10,7 +10,10 @@ extern const char *g_path_img_noise_reduc;
 extern const char *g_path_img_segmentation;
 extern const char *g_path_img_chars;
 
+extern const char *g_path_ocr_network;
+extern const char *g_path_ocr_dataset;
 extern const char *g_path_ocr_output;
+extern const char *g_path_ocr_train_network;
 
 extern const char *g_path_dataset_scrambled;
 

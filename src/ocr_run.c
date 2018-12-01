@@ -11,7 +11,7 @@
 
 void ocr_run(const char *input_image)
 {
-    struct Network *network = network_load("output/ocr_network");
+    struct Network *network = network_load(g_path_ocr_network);
     FILE *f = fopen(g_path_ocr_output, "w");
     if (f == NULL)
         errx(1, "could not open %s", g_path_ocr_output);

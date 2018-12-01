@@ -1,5 +1,6 @@
 #include <stdio.h>
 
+#include "../../utils/constants.h"
 #include "../evaluate/evaluate.h"
 #include "../propagation.h"
 #include "training.h"
@@ -66,7 +67,15 @@ void gradient_descent(
     struct Dataset *train_set, struct Dataset *validation_set,
     bool verbose)
 {
-    printf("training network with parameters:\n"
+    printf("training network with parameters:\n");
+    printf("layers size: [");
+    for (size_t i = 0; i < network->nb_layers; i++)
+    {
+        printf("%zu", network->layers[i].nb_neurons);
+        if (i + 1 < network->nb_layers)
+            printf(", ");
+    }
+    printf("]\n"
            "nb_examples: %zu\n"
            "nb_epochs: %zu\n"
            "mini_batch_size: %zu\n"
@@ -97,7 +106,7 @@ void gradient_descent(
             printf("\n");
 
             char filename[128];
-            sprintf(filename, "output/ocr_network_e%zu", epoch);
+            sprintf(filename, "%s_e%zu", g_path_ocr_train_network, epoch);
             network_save(network, filename);
         }
     }

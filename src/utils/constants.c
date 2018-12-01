@@ -7,7 +7,10 @@ const char *g_path_img_noise_reduc = "output/image_noise_reduc.bmp";
 const char *g_path_img_segmentation = "output/image_segmentation.bmp";
 const char *g_path_img_chars = "output/image_chars";
 
+const char *g_path_ocr_network = "cache/ocr_network";
+const char *g_path_ocr_dataset = "cache/ocr_dataset";
 const char *g_path_ocr_output = "output/image.txt";
+const char *g_path_ocr_train_network = "output/ocr_network";
 
 const char *g_path_dataset_scrambled = "dataset/scrambled.txt";
 

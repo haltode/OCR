@@ -87,12 +87,12 @@ static void add_font_to_dataset(
 void ocr_train(void)
 {
     // If the dataset has already been generated and saved, you can simply do:
-    // struct Dataset *full_set = dataset_load("dataset/ocr_dataset");
+    // struct Dataset *full_set = dataset_load(g_path_ocr_dataset);
     struct Dataset *full_set = dataset_alloc(3 * TOTAL_CHARS);
     add_font_to_dataset(full_set, 0, "liberation_sans");
     add_font_to_dataset(full_set, 1, "liberation_serif");
     add_font_to_dataset(full_set, 2, "liberation_mono");
-    dataset_save(full_set, "dataset/ocr_dataset");
+    dataset_save(full_set, g_path_ocr_dataset);
 
     // train: 60%, validation: 20%, test: 20%
     struct Dataset *train_set = dataset_alloc(0.6 * full_set->nb_examples);
@@ -123,7 +123,7 @@ void ocr_train(void)
     bool verbose = true;
     gradient_descent(network, params, train_set, validation_set, verbose);
 
-    network_save(network, "output/ocr_network");
+    network_save(network, g_path_ocr_train_network);
 
     network_evaluate(network, params, test_set, "test_set");
 

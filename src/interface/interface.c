@@ -35,9 +35,7 @@ void interface_start(void)
     ocr_ui->image = image;
     ocr_ui->text = text;
     button = gtk_builder_get_object(builder, "ocr_run_button");
-    g_signal_connect_data(
-        button, "clicked", G_CALLBACK(ocr_run_button), ocr_ui,
-        (GClosureNotify)free, 0);
+    g_signal_connect(button, "clicked", G_CALLBACK(ocr_run_button), ocr_ui);
 
     button = gtk_builder_get_object(builder, "quit_button");
     g_signal_connect(button, "clicked", G_CALLBACK(gtk_main_quit), NULL);
@@ -45,4 +43,6 @@ void interface_start(void)
     g_object_unref(G_OBJECT(builder));
     gtk_widget_show(window);
     gtk_main();
+
+    free(ocr_ui);
 }

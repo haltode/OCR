@@ -13,6 +13,8 @@ static int go_to_char_end(SDL_Surface *line, int w)
 {
     while (w < line->w && !is_blank_column(line, w))
         w++;
+    if (w < line->w)
+        w--;
     return w;
 }
 
@@ -64,9 +66,6 @@ void detect_chars(
             {
                 char_analysis.col_end = w;
                 extract_char_from_line(line, line_id, char_analysis, char_id);
-
-                draw_red_column(line, char_analysis.col_start  - 1);
-                draw_red_column(line, char_analysis.col_end);
 
                 line_analysis->chars[char_id] = char_analysis;
                 (line_analysis->nb_chars)++;

@@ -12,6 +12,8 @@ static int go_to_line_end(SDL_Surface *text, int h)
 {
     while (h < text->h && !is_blank_line(text, h))
         h++;
+    if (h < text->h)
+        h--;
     return h;
 }
 
@@ -29,7 +31,6 @@ static void extract_line_from_text(
     SDL_BlitSurface(text, &line_rect, line, NULL);
 
     detect_chars(line, line_analysis, line_id);
-    SDL_BlitSurface(line, NULL, text, &line_rect);
 
     SDL_FreeSurface(line);
 }
@@ -53,9 +54,6 @@ void detect_lines(SDL_Surface *text, struct PageAnalysis *page_analysis)
             {
                 line_analysis.line_end = h;
                 extract_line_from_text(text, &line_analysis, line_id);
-
-                draw_red_line(text, line_analysis.line_start - 1);
-                draw_red_line(text, line_analysis.line_end);
 
                 page_analysis->lines[line_id] = line_analysis;
                 (page_analysis->nb_lines)++;

@@ -27,20 +27,16 @@ bool is_blank_column(SDL_Surface *line, int width)
     return is_blank;
 }
 
-void draw_red_line(SDL_Surface *text, int height)
+void draw_line(
+    SDL_Surface *image, Uint32 pixel, int height, int w_start, int w_end)
 {
-    for (int w = 0; w < text->w; w++)
-    {
-        Uint32 red_pixel = SDL_MapRGB(text->format, 255, 0, 0);
-        image_set_pixel(text, height, w, red_pixel);
-    }
+    for (int w = w_start; w <= w_end; w++)
+        image_set_pixel(image, height, w, pixel);
 }
 
-void draw_red_column(SDL_Surface *line, int width)
+void draw_column(
+    SDL_Surface *image, Uint32 pixel, int width, int h_start, int h_end)
 {
-    for (int h = 0; h < line->h; h++)
-    {
-        Uint32 red_pixel = SDL_MapRGB(line->format, 255, 0, 0);
-        image_set_pixel(line, h, width, red_pixel);
-    }
+    for (int h = h_start; h <= h_end; h++)
+        image_set_pixel(image, h, width, pixel);
 }

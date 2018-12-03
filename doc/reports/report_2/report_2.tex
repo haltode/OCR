@@ -1,0 +1,75 @@
+\documentclass[12pt]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[skins,minted]{tcolorbox}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{enumitem}
+\usepackage{epigraph}
+\usepackage{float}
+\usepackage{fontspec}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{tikz}
+\usepackage{titlesec}
+\usepackage{titling}
+\usepackage{wrapfig}
+\usetikzlibrary{positioning}
+
+\BeforeBeginEnvironment{myminted}{\smallskip}
+\AfterEndEnvironment{myminted}{\smallskip}
+% https://tex.stackexchange.com/a/241002
+\definecolor{mintedbackground}{rgb}{0.95,0.95,0.95}
+\setminted[c]{
+    bgcolor=mintedbackground,
+    tabsize=4,
+    baselinestretch=1.2,
+    fontsize=\footnotesize,
+}
+\newtcblisting{myminted}[2][]{listing engine=minted, listing only, #1,
+    title=#2, minted language=c, colback=mintedbackground}
+
+\graphicspath{ {../img/} {../report_1/img/} {img/} }
+% https://tex.stackexchange.com/a/29594
+\setlength{\droptitle}{-10em}
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter. }{0em}{}
+
+% https://tex.stackexchange.com/a/53381
+\setlength\epigraphwidth{12cm}
+\setlength\epigraphrule{0pt}
+
+\begin{document}
+
+\title{
+	{\vspace{4em}\Huge Rapport de projet}\\%
+	{\large Bibimbap}\\%
+    \protect\centering\protect\includegraphics[width=0.35\textwidth]{logo_bibimbap2}
+    \protect\centering\protect\includegraphics[width=0.4\textwidth]{logo_epita}
+}
+\author{
+	Thibault Allançon\\
+	Timothé Helme-Guizon
+	\and
+	Quentin Le Helloco\\
+	Adrian Rivoire-Galkiewicz}
+\date{
+    \vfill
+	Dossier Projet Informatique\\
+	Info-Spé EPITA\\
+	Décembre 2018
+}
+
+\maketitle
+\tableofcontents
+
+\include{introduction}
+\include{neural_network}
+\include{preprocessing}
+\include{segmentation}
+\include{ui}
+\include{code}
+\include{conclusion}
+
+\end{document}

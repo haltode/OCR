@@ -5,6 +5,28 @@
 #include "../propagation.h"
 #include "training.h"
 
+static void print_training_params(
+    struct Network *network, struct TrainingParams params)
+{
+    printf("training network with parameters:\n");
+    printf("layers size: [");
+    for (size_t i = 0; i < network->nb_layers; i++)
+    {
+        printf("%zu", network->layers[i].nb_neurons);
+        if (i + 1 < network->nb_layers)
+            printf(", ");
+    }
+    printf("]\n"
+           "nb_examples: %zu\n"
+           "nb_epochs: %zu\n"
+           "mini_batch_size: %zu\n"
+           "learn_rate: %f\n"
+           "regularization_rate: %f\n\n",
+        params.nb_examples, params.nb_epochs,
+        params.mini_batch_size,
+        params.learn_rate, params.regularization_rate);
+}
+
 static void network_update_neurons(
     struct Network *network, struct TrainingParams params)
 {
@@ -37,18 +59,6 @@ static void network_update_neurons(
     }
 }
 
-static struct Dataset *get_mini_batch(
-    struct Dataset *train_set, size_t batch_size, size_t batch_id)
-{
-    struct Dataset* batch = dataset_alloc(batch_size);
-    for (size_t i = 0; i < batch_size; i++)
-    {
-        size_t j = batch_id * batch_size + i;
-        example_data_copy(&batch->examples[i], &train_set->examples[j]);
-    }
-    return batch;
-}
-
 static void gradient_descent_step(
     struct Network *network, struct TrainingParams params,
     struct Dataset *batch)
@@ -67,23 +77,7 @@ void gradient_descent(
     struct Dataset *train_set, struct Dataset *validation_set,
     bool verbose)
 {
-    printf("training network with parameters:\n");
-    printf("layers size: [");
-    for (size_t i = 0; i < network->nb_layers; i++)
-    {
-        printf("%zu", network->layers[i].nb_neurons);
-        if (i + 1 < network->nb_layers)
-            printf(", ");
-    }
-    printf("]\n"
-           "nb_examples: %zu\n"
-           "nb_epochs: %zu\n"
-           "mini_batch_size: %zu\n"
-           "learn_rate: %f\n"
-           "regularization_rate: %f\n\n",
-        params.nb_examples, params.nb_epochs,
-        params.mini_batch_size,
-        params.learn_rate, params.regularization_rate);
+    print_training_params(network, params);
 
     for (size_t epoch = 1; epoch <= params.nb_epochs; epoch++)
     {
@@ -93,7 +87,7 @@ void gradient_descent(
         for (size_t batch_id = 0; batch_id < nb_batch; batch_id++)
         {
             struct Dataset *batch =
-                get_mini_batch(train_set, params.mini_batch_size, batch_id);
+                dataset_get_batch(train_set, params.mini_batch_size, batch_id);
             gradient_descent_step(network, params, batch);
             dataset_free(batch);
         }

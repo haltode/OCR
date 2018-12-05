@@ -22,7 +22,8 @@ void dataset_free(struct Dataset *dataset);
 void dataset_save(struct Dataset *dataset, const char *filename);
 struct Dataset *dataset_load(const char *filename);
 
-void example_data_copy(struct ExampleData *dst, struct ExampleData *src);
+struct Dataset *dataset_get_batch(
+    struct Dataset *full_set, size_t batch_size, size_t batch_id);
 
 void dataset_random_shuffle(struct Dataset *dataset);
 

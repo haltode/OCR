@@ -15,8 +15,8 @@ void network_evaluate(
     struct Dataset *dataset, const char *dataset_name)
 {
     printf("%s results:\n"
-            "accuracy: %.2f%%\n"
-            "cost: %.2f\n",
+           "accuracy: %.2f%%\n"
+           "cost: %.2f\n",
         dataset_name,
         network_evaluate_accuracy(network, dataset),
         network_evaluate_cost(network, params, dataset));

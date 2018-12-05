@@ -22,6 +22,6 @@ double network_evaluate_accuracy(
             nb_correct++;
     }
 
-    double percentage = 100 * nb_correct / dataset->nb_examples;
+    double percentage = 100. * nb_correct / dataset->nb_examples;
     return percentage;
 }

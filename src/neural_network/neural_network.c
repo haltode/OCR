@@ -6,7 +6,6 @@
 #include "../utils/math.h"
 #include "../utils/random.h"
 #include "neural_network.h"
-#include "propagation.h"
 
 static void layer_alloc(struct Layer *layer, size_t nb_in, size_t nb_out)
 {
@@ -16,6 +15,13 @@ static void layer_alloc(struct Layer *layer, size_t nb_in, size_t nb_out)
     layer->weight = matrix_alloc(nb_out, nb_in);
     layer->bias = matrix_alloc(nb_out, 1);
     layer->delta = matrix_alloc(nb_out, 1);
+
+    // Init weight and bias with normal distribution (truncated for weight)
+    double sqrt_n = sqrt(layer->weight->nb_cols);
+    for (size_t i = 0; i < matrix_size(layer->weight); i++)
+        layer->weight->mat[i] = normal_distribution(0., 1.) / sqrt_n;
+    for (size_t i = 0; i < matrix_size(layer->bias); i++)
+        layer->bias->mat[i] = normal_distribution(0., 1.);
 }
 
 static void layer_free(struct Layer *layer)
@@ -25,17 +31,6 @@ static void layer_free(struct Layer *layer)
     matrix_free(layer->weight);
     matrix_free(layer->bias);
     matrix_free(layer->delta);
-}
-
-static void layer_random_init(struct Layer *layer)
-{
-    double sqrt_n = sqrt(layer->weight->nb_cols);
-    for (size_t i = 0; i < matrix_size(layer->weight); i++)
-        // Truncated normal distribution
-        layer->weight->mat[i] = normal_distribution(0., 1.) / sqrt_n;
-
-    for (size_t i = 0; i < matrix_size(layer->bias); i++)
-        layer->bias->mat[i] = normal_distribution(0., 1.);
 }
 
 struct Network *network_alloc(size_t nb_layers, size_t *layers_size)
@@ -50,7 +45,6 @@ struct Network *network_alloc(size_t nb_layers, size_t *layers_size)
         if (i > 0)
             prev_layer_size = layers_size[i - 1];
         layer_alloc(layer, prev_layer_size, layers_size[i]);
-        layer_random_init(layer);
     }
     return network;
 }

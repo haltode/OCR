@@ -61,10 +61,22 @@ struct Dataset *dataset_load(const char *filename)
     return dataset;
 }
 
-void example_data_copy(struct ExampleData *dst, struct ExampleData *src)
+static void example_data_copy(struct ExampleData *dst, struct ExampleData *src)
 {
     dst->in = matrix_copy(src->in);
     dst->out = matrix_copy(src->out);
+}
+
+struct Dataset *dataset_get_batch(
+    struct Dataset *full_set, size_t batch_size, size_t batch_id)
+{
+    struct Dataset* batch = dataset_alloc(batch_size);
+    for (size_t i = 0; i < batch_size; i++)
+    {
+        size_t j = batch_id * batch_size + i;
+        example_data_copy(&batch->examples[i], &full_set->examples[j]);
+    }
+    return batch;
 }
 
 // https://stackoverflow.com/a/6127606

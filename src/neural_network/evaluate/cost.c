@@ -2,7 +2,7 @@
 
 #include "evaluate.h"
 
-static double network_cost_function(
+static double network_cost(
     struct Network *network, struct Dataset *dataset)
 {
     double cost = 0.;
@@ -29,26 +29,38 @@ static double network_cost_function(
     return cost;
 }
 
-double network_evaluate_cost(
+static double network_regularization_cost(
     struct Network *network, struct TrainingParams params,
     struct Dataset *dataset)
 {
-    double sum_cost = network_cost_function(network, dataset);
+    double cost = 0.;
 
-    double sum_regularization = 0.;
     for (size_t i = 0; i < network->nb_layers; i++)
     {
         struct Layer *layer = &network->layers[i];
         struct Matrix *weight = layer->weight;
-        double s = 0;
+
+        double weight_sum = 0.;
         for (size_t r = 0; r < weight->nb_rows; r++)
             for (size_t c = 0; c < weight->nb_cols; c++)
-                s += matrix_get(weight, r, c) * matrix_get(weight, r, c);
-        sum_regularization += s;
+            {
+                double w = matrix_get(weight, r, c);
+                weight_sum += w * w;
+            }
+        cost += weight_sum;
     }
-    sum_regularization *=
-        params.regularization_rate / (2. * dataset->nb_examples);
 
-    double total_cost = sum_cost + sum_regularization;
-    return total_cost;
+    cost *= params.regularization_rate / (2. * dataset->nb_examples);
+    return cost;
+}
+
+double network_evaluate_cost(
+    struct Network *network, struct TrainingParams params,
+    struct Dataset *dataset)
+{
+    double sum_cost = network_cost(network, dataset);
+    double sum_regularization =
+        network_regularization_cost(network, params, dataset);
+
+    return sum_cost + sum_regularization;
 }
